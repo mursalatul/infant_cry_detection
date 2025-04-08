@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,45 +8,65 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% load static %}
 </head>
+
 <body>
     <!-- navbar section start -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d5ebfa;">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #d5ebfa;">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">ICD</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Tutorial</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Cry Detect</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Child Care
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">Option 1</a></li>
-                  <li><a class="dropdown-item" href="#">Option 2</a></li>
-                  <li><a class="dropdown-item" href="#">Option 3</a></li>
+            <a class="navbar-brand" href="#">ICD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tutorial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cry Detect</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Child Care
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Option 1</a></li>
+                            <li><a class="dropdown-item" href="#">Option 2</a></li>
+                            <li><a class="dropdown-item" href="#">Option 3</a></li>
+                        </ul>
+                    </li>
                 </ul>
-              </li>
-            </ul>
-          </div>
+            </div>
         </div>
-      </nav>
+    </nav>
     <!-- navbar section end -->
+    <!-- hero section start-->
+    <section class="d-flex align-items-center"
+        style="background: url('{% static 'images/coverpic.jpg'%}') no-repeat center center/cover; height: 80vh;">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold text-white">
+                Ensuring Your Baby’s Safety, By Predicting Cry Cause
+            </h1>
+            <p class="lead text-white">
+                Infant Cry Detection
+            </p>
+            <a href="#cry-detection" class="btn btn-primary btn-lg">
+                Discover How It Works
+            </a>
+        </div>
+    </section>
+    <!-- hero section end -->
     <div class="container">
         <h1>Infant Cry Detection</h1>
         <p>Upload a voice file below and see the result:</p>
-        
+
         <!-- Create a form to upload voice file -->
         <form action="/result/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -53,6 +74,10 @@
             <input type="file" id="audioFile" name="audioFile" accept="audio/*" required>
             <button type="submit">Upload</button>
         </form>
+
     </div>
+    <!-- Bootstrap 5 JS Bundle (including Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
