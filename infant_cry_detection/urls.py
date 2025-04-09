@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('index.urls')),
     path('', include('cry_detection.urls')),
     path('', include('result.urls')),
+    path('', include('tutorial.urls')),
 ]

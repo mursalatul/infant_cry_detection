@@ -1,5 +1,5 @@
 from django.urls import path
-from cry_detection import views
+from result import views
 
 urlpatterns = [
     path('result/', views.result, name='result'),

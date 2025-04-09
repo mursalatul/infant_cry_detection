@@ -50,33 +50,50 @@
     </nav>
     <!-- navbar section end -->
 
-    <!-- containter -->
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h1 class="card-title text-center mb-3">Infant Cry Detection</h1>
-                        <p class="card-text text-center mb-4">
-                            Upload a voice file below and see the result.
-                        </p>
-                        <!-- Create a form to upload voice file -->
-                        <form action="/result/" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="audioFile" class="form-label">Choose an audio file:</label>
-                                <input type="file" class="form-control" id="audioFile" name="audioFile" accept="audio/*"
-                                    required>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg">Upload</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+        <h1 class="text-center mb-4">Tutorial &amp; Tips</h1>
+        <div class="row">
+            <!-- Tutorial Section -->
+            <div class="col-md-6 mb-4">
+                <h2>Tutorial</h2>
+                <p>Follow these steps to use the Infant Cry Detection system:</p>
+                <ol>
+                    <li>
+                        <strong>Preparation:</strong> Ensure that you record in a quiet environment and have your device
+                        ready.
+                    </li>
+                    <li>
+                        <strong>Upload:</strong> Navigate to the <a href="{% url 'cry_detection_view' %}">Cry Detection page</a> and upload your audio file using the
+                        form.
+                    </li>
+                    <li>
+                        <strong>Analysis:</strong> Our SVM model then analyzes the cry and categorizes it as hungry,
+                        tired,
+                        needing burping, experiencing belly pain, or indicating discomfort.
+                    </li>
+                    <li>
+                        <strong>Results:</strong> View the outcome and follow the recommendations provided by the
+                        system.
+                    </li>
+                </ol>
+            </div>
+            <!-- Tips Section -->
+            <div class="col-md-6 mb-4">
+                <h2>Tips</h2>
+                <ul>
+                    <li><strong>Optimal Recording:</strong> Use a quiet environment to avoid background noise.</li>
+                    <li><strong>Consistent Distance:</strong> Keep a consistent distance between your baby and the
+                        recording device.</li>
+                    <li><strong>Duration:</strong> Aim for a recording of at least 5-10 seconds of continuous audio.
+                    </li>
+                    <li><strong>Microphone Settings:</strong> Ensure your device’s microphone is configured to capture
+                        clear audio.</li>
+                    <li><strong>Real-Time Feedback:</strong> Consider recording multiple samples to compare results if
+                        needed.</li>
+                </ul>
+                <p>Implementing these tips can help improve the accuracy and reliability of the detection system.</p>
             </div>
         </div>
-
     </div>
 
 
