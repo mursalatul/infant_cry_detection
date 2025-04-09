@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Prediction Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 </head>
+
 <body>
-    <h1>Prediction Result</h1>
-    <p><strong>Detected Cry Reason:</strong> {{ prediction }}</p>
-    <a href="/">Upload another file</a>
+    <!-- navbar section start -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #d5ebfa;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">ICD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cry_detection_view' %}">Cry Detect</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Child Care
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Option 1</a></li>
+                            <li><a class="dropdown-item" href="#">Option 2</a></li>
+                            <li><a class="dropdown-item" href="#">Option 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar section end -->
+    <!-- Results Section -->
+    <section id="results" class="py-5" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <h2 class="fw-bold mb-4">Detection Result</h2>
+                            <p class="card-text mb-4">
+                                <strong>Detected Cry Reason:</strong> {{ prediction }}
+                            </p>
+                            
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <a href="{% url 'cry_detection_view' %}" class="btn btn-primary btn-lg">
+                                    Try Again
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
+
 </html>
