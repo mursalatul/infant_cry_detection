@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'index',
     'bootstrap5',
     'cry_detection',
+    'result',
 ]
 
 MIDDLEWARE = [
