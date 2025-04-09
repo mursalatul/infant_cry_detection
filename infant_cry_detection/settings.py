@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
     'bootstrap5',
+    'cry_detection',
 ]
 
 MIDDLEWARE = [
