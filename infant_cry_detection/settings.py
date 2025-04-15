@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'result',
     'tutorial',
     'belly_pain',
+    'burping',
+    'discomfort',
+    'hungry',
+    'tired',
 ]
 
 MIDDLEWARE = [
