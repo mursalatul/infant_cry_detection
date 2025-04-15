@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cry_detection',
     'result',
     'tutorial',
+    'belly_pain',
 ]
 
 MIDDLEWARE = [
