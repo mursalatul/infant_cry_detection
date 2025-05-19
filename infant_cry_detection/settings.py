@@ -41,15 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'index',
-    'bootstrap5',
     'cry_detection',
     'result',
     'tutorial',
-    'belly_pain',
-    'burping',
     'discomfort',
-    'hungry',
-    'tired',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +60,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'infant_cry_detection.urls'
+CSRF_TRUSTED_ORIGINS = [
+    "https://crydetection.onrender.com"
+]
 
 TEMPLATES = [
     {

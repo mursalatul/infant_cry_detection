@@ -24,9 +24,5 @@ urlpatterns = [
     path('', include('cry_detection.urls')),
     path('', include('result.urls')),
     path('', include('tutorial.urls')),
-    path('', include('belly_pain.urls')),
-    path('', include('burping.urls')),
     path('', include('discomfort.urls')),
-    path('', include('hungry.urls')),
-    path('', include('tired.urls')),
 ]
