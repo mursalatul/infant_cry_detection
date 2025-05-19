@@ -34,6 +34,19 @@ def extract_features(audio, sr):
     ])
     return features
 
+def convert_to_wav(file_path):
+    """Convert non-WAV files to WAV using pydub."""
+    try:
+        if file_path.lower().endswith('.wav'):
+            return file_path
+        wav_path = os.path.splitext(file_path)[0] + '.wav'
+        audio = AudioSegment.from_file(file_path)
+        audio.export(wav_path, format='wav')
+        return wav_path
+    except Exception as e:
+        print(f"Error converting {file_path}: {e}")
+        return None
+    
 def result(request):
     if request.method == 'POST' and 'audioFile' in request.FILES:
         audio_file = request.FILES['audioFile']
@@ -41,7 +54,14 @@ def result(request):
         # Save uploaded file temporarily
         file_path = default_storage.save('temp/' + audio_file.name, audio_file)
         full_path = os.path.join(settings.MEDIA_ROOT, file_path)
-
+        
+        # convert to wav (for any non wav file)
+        full_path = convert_to_wav(full_path)
+        if full_path is None:
+            # conversion failed; fall back or bail out
+            default_storage.delete(file_path)
+            return render(request, 'result.html', {
+                'prediction': 'Could not process audio file format.'})
         try:
             # Load and extract features
             audio, sr = librosa.load(full_path, res_type='kaiser_fast')
