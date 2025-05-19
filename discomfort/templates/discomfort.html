@@ -5,175 +5,511 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infant Cry Detection - Discomfort</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #e0f7ff, #f0fcff);
+       .navbar {
+            padding: 1rem 2%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .card {
-            border: none;
-            border-radius: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color) !important;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        
+        .navbar-nav .nav-item {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
         }
-
-        .card-title {
-            color: #0077cc;
+        
+        .navbar-nav .nav-link {
+            color: var(--dark-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            position: relative;
         }
-
-        .section-title {
-            text-align: center;
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .navbar-nav .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .navbar-nav .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color);
             font-weight: 600;
-            margin-bottom: 40px;
-            color: #006bb3;
+        }
+        
+        .navbar-nav .nav-link.active:after {
+            width: 100%;
         }
 
-        .references a {
-            color: #0077cc;
-            text-decoration: none;
+         :root {
+            --primary-color: #3a7bd5; /* Professional blue */
+            --secondary-color: #00d2ff; /* Complementary teal */
+            --dark-color: #2c3e50; /* Dark slate for text */
+            --light-color: #f8f9fa; /* Light background */
+            --accent-color: #ff7e5f; /* Coral accent */
+            --success-color: #4CAF50; /* Green for positive actions */
         }
-
-        .references a:hover {
-            text-decoration: underline;
-        }
-
-        .card-body {
-            background-color: #ffffff;
-            border-radius: 20px;
-            padding: 20px;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+      /* Main Content Styles */
+      body {
+          background-color: var(--light-bg);
+          color: var(--text-color);
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          line-height: 1.6;
+      }
+      
+      .main-container {
+          padding: 3rem 0;
+      }
+      
+      .section-header {
+          text-align: center;
+          margin-bottom: 3rem;
+      }
+      
+      .section-title {
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+          position: relative;
+          display: inline-block;
+      }
+      
+      .section-title:after {
+          content: '';
+          position: absolute;
+          width: 50%;
+          height: 4px;
+          background: var(--accent-color);
+          bottom: -10px;
+          left: 25%;
+      }
+      
+      .section-subtitle {
+          color: var(--text-light);
+          font-size: 1.1rem;
+          max-width: 700px;
+          margin: 0 auto;
+      }
+      
+      /* Two-column layout */
+      .two-column-section {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 3rem;
+          position: relative;
+      }
+      
+      .column {
+          flex: 1;
+          min-width: 300px;
+          padding: 0 1.5rem;
+          position: relative;
+      }
+      
+      .column-divider {
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          background-color: var(--divider-color);
+      }
+      
+      .info-card {
+          background-color: var(--card-bg);
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          margin-bottom: 2rem;
+          overflow: hidden;
+      }
+      
+      /* Left cards (discomfort, belly pain) - left border */
+      .left-card {
+          border-left: 4px solid var(--primary-color);
+      }
+      
+      /* Right cards (hungry, burping) - right border */
+      .right-card {
+          border-right: 4px solid var(--primary-color);
+      }
+      
+      .info-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .card-header {
+          background-color: rgba(74, 111, 165, 0.05);
+          padding: 1.25rem 1.5rem;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      
+      .card-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: var(--primary-color);
+          margin: 0;
+      }
+      
+      .card-body {
+          padding: 1.5rem;
+      }
+      
+      .card-item {
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px dashed #eee;
+      }
+      
+      .card-item:last-child {
+          margin-bottom: 0;
+          padding-bottom: 0;
+          border-bottom: none;
+      }
+      
+      .item-title {
+          font-weight: 600;
+          color: var(--text-color);
+          margin-bottom: 0.5rem;
+      }
+      
+      .item-detail {
+          color: var(--text-light);
+          margin-bottom: 0;
+      }
+      
+      .item-detail strong {
+          color: var(--primary-color);
+      }
+      
+      .references-section {
+          background-color: var(--card-bg);
+          border-radius: 10px;
+          padding: 2rem;
+          margin-top: 4rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      
+      .references-title {
+          font-size: 1.5rem;
+          color: var(--primary-color);
+          margin-bottom: 1.5rem;
+          text-align: center;
+      }
+      
+      .reference-list {
+          list-style-type: none;
+          padding: 0;
+      }
+      
+      .reference-item {
+          margin-bottom: 1rem;
+          padding: 1rem;
+          background-color: rgba(74, 111, 165, 0.05);
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+      }
+      
+      .reference-item:hover {
+          background-color: rgba(74, 111, 165, 0.1);
+      }
+      
+      .reference-link {
+          color: var(--primary-color);
+          text-decoration: none;
+          transition: color 0.3s ease;
+      }
+      
+      .reference-link:hover {
+          color: var(--accent-color);
+          text-decoration: underline;
+      }
+      
+      @media (max-width: 768px) {
+          .two-column-section {
+              flex-direction: column;
+          }
+          
+          .column {
+              padding: 0;
+          }
+          
+          .column-divider {
+              display: none;
+          }
+          
+          .section-title {
+              font-size: 1.8rem;
+          }
+          
+          .card-header {
+              padding: 1rem;
+          }
+          
+          .card-body {
+              padding: 1rem;
+          }
+          
+          /* On mobile, keep all borders on left for consistency */
+          .right-card {
+              border-right: none;
+              border-left: 4px solid var(--primary-color);
+          }
+      }
     </style>
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #d5ebfa;">
+    <!-- navbar section start - Kept exactly as requested -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">ICD</a>
+            <a class="navbar-brand" href="{% url 'index' %}">ICD</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tutorial</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Cry Detect</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Belly Pain</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Discomfort</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Burping</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Hungry</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tired</a></li>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cry_detection_view' %}">Cry Detect</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'discomfort' %}">Discomfort</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container py-5">
-        <h1 style="font-size: 3rem; font-weight: 700; text-align: center; color: #0077cc; border-bottom: 3px solid #5ec6f3; padding-bottom: 15px; margin-bottom: 40px; font-family: 'Poppins', sans-serif; animation: fadeInDown 1s;">
-            Discomfort in Babies
-        </h1>
-
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <!-- Cards Start -->
-            <div class="col">
-                <div class="card h-100 shadow-sm">
+    <!-- Main Content -->
+    <div class="container main-container">
+        <!-- First Row: Discomfort and Hungry Signs -->
+        <div class="section-header">
+            <h1 class="section-title">Baby Comfort Guide</h1>
+            <p class="section-subtitle">Recognizing and addressing your baby's needs</p>
+        </div>
+        
+        <div class="two-column-section">
+            <div class="column">
+                <div class="info-card left-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Discomfort Signs</h2>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">1. Difficulty in sleeping and settling down</h5>
-                        <p><strong>Attention:</strong> Is your baby crying indicating colic?</p>
+                        <div class="card-item">
+                            <h3 class="item-title">Difficulty in sleeping and settling down</h3>
+                            <p class="item-detail"><strong>Attention:</strong> Is your baby crying indicating colic?</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Difficulty in feeding</h3>
+                            <p class="item-detail"><strong>Attention:</strong> When feeding becomes stressful or avoided</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Intense crying</h3>
+                            <p class="item-detail"><strong>Attention:</strong> Excessive crying may signal pain or distress</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Lack of energy</h3>
+                            <p class="item-detail"><strong>Attention:</strong> Baby is less responsive or inactive</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Pained facial expressions</h3>
+                            <p class="item-detail"><strong>Attention:</strong> Persistent grimacing or clenched jaw</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Tense or stiff body movements</h3>
+                            <p class="item-detail"><strong>Attention:</strong> Arching back or rigid limbs repeatedly</p>
+                        </div>
+                
                     </div>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">2. Difficulty in feeding</h5>
-                        <p><strong>Attention:</strong> When feeding becomes stressful or avoided</p>
+            
+            <div class="column-divider"></div>
+            
+            <div class="column">
+                <div class="info-card right-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Hungry Signs</h2>
                     </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">3. Intense crying</h5>
-                        <p><strong>Attention:</strong> Excessive crying may signal pain or distress</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">4. Lack of energy</h5>
-                        <p><strong>Attention:</strong> Baby is less responsive or inactive</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">5. Pained facial expressions</h5>
-                        <p><strong>Attention:</strong> Persistent grimacing or clenched jaw</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">6. Tense or stiff body movements</h5>
-                        <p><strong>Attention:</strong> Arching back or rigid limbs repeatedly</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">7. Irritability</h5>
-                        <p><strong>Attention:</strong> Regular mood swings without clear reason</p>
+                        <div class="card-item">
+                            <h3 class="item-title">Putting hands in or near mouth</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> Comfort</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Waving hands toward mouth</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> Teething</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Turning head toward breast/chest area</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> Acid reflux</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Turning toward or looking at bottle</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> Anxiety</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Puckering or smacking lips</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> —</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Clenching little hands</h3>
+                            <p class="item-detail"><strong>Other Issue:</strong> —</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- References -->
-        <div class="mt-5 references">
-            <h3 class="text-primary">Reference</h3>
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item">
-                    <a href="https://www.news-medical.net/health/Pain-in-Infants.aspx" target="_blank">
-                        News Medical - Pain in Infants
-                    </a>
+        <!-- Second Row: Belly Pain and Burping -->
+        <div class="two-column-section">
+            <div class="column">
+                <div class="info-card left-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Belly Pain</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-item">
+                            <h3 class="item-title">Crying more than usual</h3>
+                            <p class="item-detail"><strong>Reason:</strong> Gas</p>
+                            <p class="item-detail"><strong>Treatment:</strong> Bicycle baby's legs</p>
+                            <p class="item-detail"><strong>See a doctor if:</strong> Fever of 100.4°F (38°C) or above</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Spitting up or vomiting</h3>
+                            <p class="item-detail"><strong>Reason:</strong> Constipation</p>
+                            <p class="item-detail"><strong>Treatment:</strong> Take a look at their diet</p>
+                            <p class="item-detail"><strong>See a doctor if:</strong> Diarrhea that lasts more than 48 hours</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Refusing to eat</h3>
+                            <p class="item-detail"><strong>Reason:</strong> Formula ingredients</p>
+                            <p class="item-detail"><strong>Treatment:</strong> Take a look at your diet</p>
+                            <p class="item-detail"><strong>See a doctor if:</strong> Constipation that lasts more than a few days</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Unusual sleep disruptions</h3>
+                            <p class="item-detail"><strong>Reason:</strong> Allergies or sensitivities</p>
+                            <p class="item-detail"><strong>Treatment:</strong> Address feeding issues</p>
+                            <p class="item-detail"><strong>See a doctor if:</strong> Signs of extreme stress like nonstop screaming</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Diarrhea or constipation</h3>
+                            <p class="item-detail"><strong>Reason:</strong> GERD (reflux)</p>
+                            <p class="item-detail"><strong>Treatment:</strong> Consider a different formula</p>
+                            <p class="item-detail"><strong>See a doctor if:</strong> Extreme fatigue</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column-divider"></div>
+            
+            <div class="column">
+                <div class="info-card right-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Burping Techniques</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="item-detail" style="margin-bottom: 1.5rem;">
+                            Burping helps release air swallowed during feeding. Try these techniques when your baby shows signs of discomfort.
+                        </p>
+                        <p class="item-detail" style="margin-bottom: 1.5rem;">
+                            Burping helps release air swallowed during feeding. Try these techniques when your baby shows signs of discomfort.
+                        </p>
+                        
+                        <div class="card-item">
+                            <h3 class="item-title">When they're sucking</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Over the shoulder</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Slows down during feeds</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Sitting on your lap</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Fussing during feeds</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Lying across your lap</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Between sides when breastfeeding</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Gentle back pats</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">At the end of a feed</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Upright position for 10-15 minutes</p>
+                        </div>
+                        <div class="card-item">
+                            <h3 class="item-title">Arched back or crying</h3>
+                            <p class="item-detail"><strong>How to burp:</strong> Try different positions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- References Section at Bottom -->
+        <div class="references-section">
+            <h2 class="references-title">References</h2>
+            <ul class="reference-list">
+                <li class="reference-item">
+                    <a href="https://www.news-medical.net/health/Pain-in-Infants.aspx" class="reference-link" target="_blank">News Medical - Pain in Infants</a>
                 </li>
-            </ol>
+                <li class="reference-item">
+                    <a href="https://www.healthline.com/health/baby/baby-upset-stomach#when-to-see-the-doctor" class="reference-link" target="_blank">Healthline - Baby Upset Stomach</a>
+                </li>
+                <li class="reference-item">
+                    <a href="https://www.childrenshospital.org/conditions/abdominal-pain-children/symptoms-causes" class="reference-link" target="_blank">Children's Hospital - Abdominal Pain</a>
+                </li>
+                <li class="reference-item">
+                    <a href="https://www.mayoclinicproceedings.org/article/S0025-6196(16)31773-7/fulltext" class="reference-link" target="_blank">Mayo Clinic - Belly Pain in Babies</a>
+                </li>
+                <li class="reference-item">
+                    <a href="https://www.pregnancybirthbaby.org.au/burping-and-wind-in-babies" class="reference-link" target="_blank">Pregnancy, Birth & Baby</a>
+                </li>
+                <li class="reference-item">
+                    <a href="https://www.unicef.org/parenting/child-care/how-to-burp-baby" class="reference-link" target="_blank">UNICEF - How to burp a baby</a>
+                </li>
+                <li class="reference-item">
+                    <a href="https://www.healthline.com/health/baby/hungry-baby#other-issues" class="reference-link" target="_blank">Healthline - Hungry Baby</a>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS -->
+    <!-- Bootstrap 5 JS Bundle (including Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

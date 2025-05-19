@@ -5,17 +5,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infant Cry Detection</title>
-    {% load bootstrap5 %}
+    {% load django_bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% load static %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    {% load tz %}
+    <!-- Clear black baby-related favicon -->
+    <!-- Blue baby-related favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3342/3342137.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3342/3342137.png">
 
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #3a7bd5;
+            /* Professional blue */
+            --secondary-color: #00d2ff;
+            /* Complementary teal */
+            --dark-color: #2c3e50;
+            /* Dark slate for text */
+            --light-color: #f8f9fa;
+            /* Light background */
+            --accent-color: #ff7e5f;
+            /* Coral accent */
+            --success-color: #4CAF50;
+            /* Green for positive actions */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* footer start */
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #1a252f) !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        footer a {
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--secondary-color) !important;
+            padding-left: 5px;
+        }
+
+        footer h5 {
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer h5:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Newsletter button */
+        footer .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+        }
+
+        footer .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+
+            footer .text-md-start,
+            footer .text-md-end {
+                text-align: center !important;
+            }
+
+            footer h5:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* footer end  */
+
+
+        /* Navbar Styles */
+        .navbar {
+            padding: 1rem 2%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-nav .nav-item {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .navbar-nav .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .navbar-nav .nav-link.active:after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section-custom {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 7rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section-custom:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1530036854756-6d62f762f1b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.1;
+        }
+
+        .hero-section-custom .display-4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-section-custom .lead {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-section-custom .btn {
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hero-section-custom .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card .card-body {
+            padding: 2rem;
+        }
+
+        .feature-card i {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Section Headings */
+        .section-heading {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* How It Works Section */
+        #how-it-works {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+        }
+
+        #how-it-works .section-heading {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        #how-it-works .section-heading:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        #how-it-works .card {
+            border: none;
+            background-color: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        #how-it-works .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        #how-it-works .card i {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            color: #3a7bd5;
+        }
+
+        #how-it-works .card h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        #how-it-works .card p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Privacy Section */
+        #privacy {
+            background-color: var(--light-color);
+        }
+
+        /* CTA Section */
+        #cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 5rem 0;
+            color: white;
+        }
+
+        #cta .btn {
+            padding: 0.8rem 2.5rem;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #cta .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section-custom {
+                padding: 4rem 0;
+            }
+
+            .hero-section-custom .display-4 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section-custom .lead {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- navbar section start -->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #d5ebfa;">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}">ICD</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -23,7 +356,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
                     </li>
@@ -33,288 +366,280 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'cry_detection_view' %}">Cry Detect</a>
                     </li>
-                    {% comment %} <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Child Care
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Option 1</a></li>
-                            <li><a class="dropdown-item" href="#">Option 2</a></li>
-                            <li><a class="dropdown-item" href="#">Option 3</a></li>
-                        </ul>
-                    </li> {% endcomment %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'belly_pain' %}">Belly Pain</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'burping' %}">Burping</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'discomfort' %}">Discomfort</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'hungry' %}">Hungry</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tired' %}">Tired</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- navbar section end -->
 
-    <!-- hero section start-->
-    <section class="d-flex align-items-center"
-        style="background: url('{% static 'images/coverpic.jpg'%}') no-repeat center center/cover; height: 80vh;">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold text-white">
-                Ensuring Your Baby’s Safety, By Predicting Cry Cause
+    <section class="d-flex align-items-center hero-section-custom">
+        <div class="container text-center position-relative">
+            <h1 class="display-4 fw-bold">
+                Ensuring Your Baby's Safety, By Predicting Cry Cause
             </h1>
-            <p class="lead text-white">
-                Infant Cry Detection
+            <p class="lead">
+                Advanced Machine Learning for Infant Care
             </p>
-            <a href="{% url 'cry_detection_view' %}" class="btn btn-primary btn-lg">
+            <a href="{% url 'cry_detection_view' %}" class="btn btn-light btn-lg">
                 Discover How It Works
             </a>
         </div>
     </section>
-    <!-- hero section end -->
 
-    <!-- feature section start -->
-    <section id="features" class="py-5" style="background-color: #f8f9fa;">
-        <!-- Embedded Style for Hover Effect -->
-        <style>
-          .feature-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-          }
-          .feature-card:hover {
-            transform: translateY(-5px);
-            /* Optional shadow on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-          }
-        </style>
-      
+    <section id="features" class="py-5">
         <div class="container">
-          <div class="row text-center mb-4">
-            <div class="col">
-              <h2 class="fw-bold">Key Features</h2>
-              <p class="text-muted">Discover what makes our Infant Cry Detection system stand out</p>
-            </div>
-          </div>
-          <div class="row">
-            <!-- Feature 1: High Accuracy -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-check-circle-fill display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">High Accuracy</h5>
-                  <p class="card-text">Predicts the probable cause of a cry with <strong>98% accuracy</strong> using our advanced SVM model.</p>
-                </div>
-              </div>
-            </div>
-            <!-- Feature 2: Multi-Format Support -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-music-note-beamed display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">Multi-Format Support</h5>
-                  <p class="card-text">Handles various audio formats such as <strong>MP3, WAV, AAC, OGG</strong>, and more.</p>
-                </div>
-              </div>
-            </div>
-            <!-- Feature 3: Cross-Platform -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-phone display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">Cross-Platform</h5>
-                  <p class="card-text">Accessible on any platform, whether you use <strong>iOS, Android, Windows, or Mac</strong>.</p>
-                </div>
-              </div>
-            </div>
-            <!-- Feature 4: Real-Time Analysis -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-speedometer2 display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">Real-Time Analysis</h5>
-                  <p class="card-text">Processes your audio instantly, delivering fast and reliable predictions.</p>
-                </div>
-              </div>
-            </div>
-            <!-- Feature 5: User-Friendly Interface -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-display-fill display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">User-Friendly Interface</h5>
-                  <p class="card-text">Designed for easy navigation, ensuring caregivers can use the system effortlessly.</p>
-                </div>
-              </div>
-            </div>
-            <!-- Feature 6: Custom Alerts -->
-            <div class="col-md-4 mb-4">
-              <div class="card border-0 h-100 feature-card">
-                <div class="card-body text-center">
-                  <i class="bi bi-bell-fill display-4 text-primary mb-3"></i>
-                  <h5 class="card-title">Custom Alerts</h5>
-                  <p class="card-text">Receive personalized notifications to help you take timely action for your baby’s care.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-    <!-- feature section end -->
-
-    <!-- How It Works Section start-->
-    <section id="how-it-works" class="py-5" style="background-color: #ffffff;">
-        <div class="container">
-            <div class="row text-center mb-4">
+            <div class="row text-center mb-5">
                 <div class="col">
-                    <h2 class="fw-bold">How Our ML Model Works</h2>
+                    <h2 class="fw-bold section-heading">Key Features</h2>
+                    <p class="text-muted">Discover what makes our Infant Cry Detection system stand out</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-check-circle-fill display-4 mb-3"></i>
+                            <h5 class="card-title">High Accuracy</h5>
+                            <p class="card-text">Predicts the probable cause of a cry with <strong>98% accuracy</strong>
+                                using our advanced SVM model.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-music-note-beamed display-4 mb-3"></i>
+                            <h5 class="card-title">Multi-Format Support</h5>
+                            <p class="card-text">Handles various audio formats such as <strong>MP3, WAV, AAC,
+                                    OGG</strong>, and more.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-phone display-4 mb-3"></i>
+                            <h5 class="card-title">Cross-Platform</h5>
+                            <p class="card-text">Accessible on any platform, whether you use <strong>iOS, Android,
+                                    Windows, or Mac</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-speedometer2 display-4 mb-3"></i>
+                            <h5 class="card-title">Real-Time Analysis</h5>
+                            <p class="card-text">Processes your audio instantly, delivering fast and reliable
+                                predictions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-display-fill display-4 mb-3"></i>
+                            <h5 class="card-title">User-Friendly Interface</h5>
+                            <p class="card-text">Designed for easy navigation, ensuring caregivers can use the system
+                                effortlessly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-bell-fill display-4 mb-3"></i>
+                            <h5 class="card-title">Custom Alerts</h5>
+                            <p class="card-text">Receive personalized notifications to help you take timely action for
+                                your baby's care.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section id="how-it-works" class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2 class="fw-bold section-heading">How Our ML Model Works</h2>
                     <p class="text-muted">
                         Our state-of-the-art SVM model analyzes your baby's cry in real time with 98% accuracy.
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <!-- Step 1: Capture Audio -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0">
-                        <div class="card-body text-center">
-                            <i class="bi bi-mic-fill" style="font-size: 2rem;"></i>
-                            <h5 class="mt-3">Capture</h5>
-                            <p>Continuously record your baby's cry.</p>
+            <div class="row g-4">
+                <!-- Step 1 -->
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-mic-fill"></i>
+                            <h5>Capture</h5>
+                            <p>Record your baby's cry using any audio device or our mobile app.</p>
                         </div>
                     </div>
                 </div>
-                <!-- Step 2: Analyze Audio -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0">
-                        <div class="card-body text-center">
-                            <i class="bi bi-sliders" style="font-size: 2rem;"></i>
-                            <h5 class="mt-3">Analyze</h5>
-                            <p>Extract crucial audio features.</p>
+
+                <!-- Step 2 -->
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-sliders"></i>
+                            <h5>Analyze</h5>
+                            <p>Our system extracts 13 crucial audio features from the recording.</p>
                         </div>
                     </div>
                 </div>
-                <!-- Step 3: SVM Prediction -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0">
-                        <div class="card-body text-center">
-                            <i class="bi bi-bar-chart-line-fill" style="font-size: 2rem;"></i>
-                            <h5 class="mt-3">Predict</h5>
-                            <p>Our SVM model predicts if the baby is hungry, tired, burping, in belly pain, or
-                                uncomfortable.</p>
+
+                <!-- Step 3 -->
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                            <h5>Predict</h5>
+                            <p>The SVM model classifies the cry into hunger, discomfort, pain, etc.</p>
                         </div>
                     </div>
                 </div>
-                <!-- Step 4: Accurate Results -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0">
-                        <div class="card-body text-center">
-                            <i class="bi bi-check-circle-fill" style="font-size: 2rem;"></i>
-                            <h5 class="mt-3">Results</h5>
-                            <p>98% accurate predictions to ensure timely care.</p>
+
+                <!-- Step 4 -->
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <h5>Results</h5>
+                            <p>Get accurate predictions with suggested care instructions.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- how it works section end  -->
 
-    <!-- Testimonials Section Start-->
-    <section id="testimonials" class="py-5" style="background-color: #f8f9fa;">
-        <div class="container">
-            <div class="row text-center mb-4">
-                <div class="col">
-                    <h2 class="fw-bold">What Parents Say</h2>
-                    <p class="text-muted">Real feedback from parents relying on our system</p>
-                </div>
-            </div>
-            <div class="row">
-                <!-- Testimonial 1 -->
-                <div class="col-md-4">
-                    <div class="card border-0 mb-4">
-                        <div class="card-body text-center">
-                            <p class="card-text">
-                                "This system has been a lifesaver. It accurately told me when my baby was hungry before
-                                the crying escalated!"
-                            </p>
-                            <h5 class="card-title">- Amena</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="col-md-4">
-                    <div class="card border-0 mb-4">
-                        <div class="card-body text-center">
-                            <p class="card-text">
-                                "I love the high accuracy of predictions. Knowing whether my baby is tired, or needs
-                                burping makes all the difference."
-                            </p>
-                            <h5 class="card-title">- Fatema</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="col-md-4">
-                    <div class="card border-0 mb-4">
-                        <div class="card-body text-center">
-                            <p class="card-text">
-                                "The interface is so user-friendly. I feel confident that I'll get the right insights
-                                about my baby's needs."
-                            </p>
-                            <h5 class="card-title">- Rotna Begum</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- testimonials section end -->
-
-    <!-- Privacy Section start-->
-    <section id="privacy" class="py-5" style="background-color: #f8f9fa;">
+    <section id="privacy" class="py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
-                    <h2 class="fw-bold">Our Commitment to Your Privacy</h2>
-                    <p class="mt-3 lead">
+                    <h2 class="fw-bold section-heading">Our Commitment to Your Privacy</h2>
+                    <p class="mt-4 lead">
                         Your trust is our priority. We only analyze your audio files to detect cry patterns, and we
-                        never store or share any personal data.
-                    </p>
-                    <p class="mt-3 lead">
-                        We respect your privacy. The audio file is analyzed for the sole purpose of detecting cry
+                        never store or share any personal data. We respect your privacy. The audio file is analyzed for the sole purpose of detecting cry
                         patterns and is not stored on our servers.
                     </p>
+                  
                 </div>
             </div>
         </div>
     </section>
-    <!-- privacy section end -->
-
-    <!-- Call To Action Section start-->
-    <section id="cta" class="py-5" style="background-color: #007bff;">
+    
+    <!-- <section id="cta">
         <div class="container text-center">
             <h2 class="text-white fw-bold mb-4">Discover Our Advanced Cry Detection</h2>
-            <!-- <p class="text-white mb-4">
-                Empower yourself with real-time cry detection and get actionable insights instantly. Your baby's
-                well-being is just one click away.
-            </p> -->
             <a href="{% url 'cry_detection_view' %}" class="btn btn-light btn-lg">Get Started Now</a>
         </div>
-    </section>
-    <!-- call to action section end  -->
+    </section> -->
 
 
 
-    <!-- Bootstrap 5 JS Bundle (including Popper) -->
+
+
+    <!-- footer start -->
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <!-- About Column -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-uppercase mb-4" style="color: var(--secondary-color);">
+                        <i class="bi bi-heart-pulse me-2"></i>Infant Cry Detection
+                    </h5>
+                   <p>This project is a collaborative effort. The team members and their respective profiles are listed below.</p>
+
+                    <div class="mt-4">
+
+                        <a href="https://www.linkedin.com/in/mursalatul/" class="text-white"><i class="bi bi-linkedin fs-5"></i></a>
+                        <a href="https://www.linkedin.com/in/nahid-usha-aba03a119/" class="text-white"><i class="bi bi-linkedin fs-5"></i></a>
+
+                        <a href="https://www.linkedin.com/in/farnaz-orpita-056269290/" class="text-white"><i class="bi bi-linkedin fs-5"></i></a>
+                        <a href="https://www.linkedin.com/in/nahid-hasan-75a559285/" class="text-white"><i class="bi bi-linkedin fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-linkedin fs-5"></i></a>
+
+                    </div>
+                </div>
+
+                <!-- Quick Links Column -->
+                <div class="col-md-2 mb-4">
+                    <h5 class="text-uppercase mb-4" style="color: var(--secondary-color);">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'index' %}" class="text-white text-decoration-none">Home</a>
+                        </li>
+                        <li class="mb-2"><a href="{% url 'tutorial' %}"
+                                class="text-white text-decoration-none">Tutorial</a></li>
+                        <li class="mb-2"><a href="{% url 'cry_detection_view' %}"
+                                class="text-white text-decoration-none">Cry Detect</a></li>
+                        <li class="mb-2"><a href="{% url 'discomfort' %}"
+                                class="text-white text-decoration-none">Discomfort</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase mb-4" style="color: var(--secondary-color);">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> Dhaka,Bangladesh</li>
+                        <li class="mb-2"><i class="bi bi-telephone-fill me-2"></i> +8801750708865</li>
+                        <li class="mb-2"><i class="bi bi-envelope-fill me-2"></i> crydetection.onrender.com</li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Column -->
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase mb-4" style="color: var(--secondary-color);">Newsletter</h5>
+                    <p>Subscribe to get updates on new features and parenting tips.</p>
+                    <form class="mt-3">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Your Email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+
+            <!-- Copyright Row -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Infant Cry Detection. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">
+                        Made with <i class="bi bi-heart-fill text-danger"></i> for parents everywhere
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- footer end  -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
