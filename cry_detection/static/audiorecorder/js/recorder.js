@@ -7,7 +7,9 @@ const playbackSection = document.getElementById('playbackSection');
 const playbackAudio   = document.getElementById('playbackAudio');
 const submitButton    = document.getElementById('submitRecording');
 
-let mediaRecorder, audioChunks = [], recordedBlob = null;
+let mediaRecorder;
+let audioChunks = [];
+let recordedBlob = null;
 
 // CSRF helper (Django)
 function getCookie(name) {
@@ -23,50 +25,60 @@ function getCookie(name) {
   return cookieValue;
 }
 
+// Request microphone access and setup recorder
 navigator.mediaDevices.getUserMedia({ audio: true })
   .then(stream => {
     mediaRecorder = new MediaRecorder(stream);
 
-    mediaRecorder.addEventListener('dataavailable', e => {
-      audioChunks.push(e.data);
+    // Collect audio data
+    mediaRecorder.addEventListener('dataavailable', event => {
+      audioChunks.push(event.data);
     });
 
+    // On stop, create Blob and show playback + submit
     mediaRecorder.addEventListener('stop', () => {
-      // assemble blob
       recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
       audioChunks = [];
 
-      // show playback + submit
       const url = URL.createObjectURL(recordedBlob);
       playbackAudio.src = url;
-      playbackSection.style.display = 'flex';
+
+      // Show playback section
+      if (playbackSection.classList.contains('d-none')) {
+        playbackSection.classList.replace('d-none', 'd-flex');
+      }
+      submitButton.disabled = false;
     });
 
-    // start recording
-    recordButton.onclick = () => {
+    // Start recording
+    recordButton.addEventListener('click', () => {
       audioChunks = [];
       recordedBlob = null;
-      playbackSection.style.display = 'none';
-      submitButton.disabled = false;
+
+      // Hide playback section
+      if (playbackSection.classList.contains('d-flex')) {
+        playbackSection.classList.replace('d-flex', 'd-none');
+      }
+      submitButton.disabled = true;
 
       mediaRecorder.start();
       recordButton.disabled = true;
       stopButton.disabled   = false;
-    };
+    });
 
-    // stop recording
-    stopButton.onclick = () => {
+    // Stop recording
+    stopButton.addEventListener('click', () => {
       mediaRecorder.stop();
       recordButton.disabled = false;
       stopButton.disabled   = true;
-    };
+    });
   })
-  .catch(err => {
-    console.error('Microphone error:', err);
+  .catch(error => {
+    console.error('Microphone error:', error);
     alert('Could not access your microphone.');
   });
 
-// Submit recorded blob just like your form
+// Submit recorded blob via fetch() to /result/
 submitButton.addEventListener('click', () => {
   if (!recordedBlob) return;
 
@@ -76,16 +88,16 @@ submitButton.addEventListener('click', () => {
   fetch('/result/', {
     method: 'POST',
     headers: { 'X-CSRFToken': getCookie('csrftoken') },
-    body: formData,
+    body: formData
   })
-  .then(res => res.text())
-  .then(html => {
-    document.open();
-    document.write(html);
-    document.close();
-  })
-  .catch(err => {
-    console.error('Upload failed:', err);
-    alert('Failed to upload recording.');
-  });
+    .then(response => response.text())
+    .then(html => {
+      document.open();
+      document.write(html);
+      document.close();
+    })
+    .catch(err => {
+      console.error('Upload failed:', err);
+      alert('Failed to upload recording.');
+    });
 });
