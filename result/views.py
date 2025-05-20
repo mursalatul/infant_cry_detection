@@ -54,7 +54,6 @@ def result(request):
         # Save uploaded file temporarily
         file_path = default_storage.save('temp/' + audio_file.name, audio_file)
         full_path = os.path.join(settings.MEDIA_ROOT, file_path)
-        
         # convert to wav (for any non wav file)
         full_path = convert_to_wav(full_path)
         if full_path is None:
@@ -80,6 +79,13 @@ def result(request):
 
         # Optionally delete the temp file
         default_storage.delete(file_path)
+        
+        # 2. delete the converted WAV file
+        try:
+            os.remove(full_path)
+        except OSError:
+            pass
+        
         return render(request, 'result.html', {'prediction': label})
 
     return render(request, 'result.html', {'prediction': 'No file uploaded'})
