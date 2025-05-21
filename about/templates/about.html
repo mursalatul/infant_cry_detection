@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Team & Motivation{% endblock %}
+
+{% block content %}
+<style>
+  /* Page-specific styles */
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title:after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--secondary-color);
+    border-radius: 2px;
+  }
+
+  .motivation-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 5rem 0;
+  }
+  .motivation-section .lead {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+  }
+
+  .team-section {
+    padding: 4rem 0;
+  }
+  .team-card {
+    background: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem 1rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  .team-card:hover {
+    transform: translateY(-5px);
+  }
+  .team-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  .research-section {
+    background: var(--light-color);
+    padding: 4rem 0;
+  }
+  .research-section ul {
+    list-style: disc inside;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .research-section ul li {
+    margin-bottom: 0.75rem;
+  }
+</style>
+
+<!-- 1) Hero / Emotional Motivation -->
+<section class="motivation-section text-center">
+  <div class="container">
+    <h1 class="display-4">Why Infant Cry Detection?</h1>
+    <p class="lead">
+      Every tear tells a story: hunger, discomfort, pain, or simply the need to be held.  
+      For new parents, guessing wrong can mean hours of worry, interrupted sleep, and  
+      stress. Our project harnesses cutting-edge audio analysis to give you clarity  
+      the moment your baby cries—bringing peace of mind when it matters most.
+    </p>
+  </div>
+</section>
+
+<!-- 2) Our Team -->
+<section class="team-section">
+  <div class="container">
+    <h2 class="section-title">Meet Our Team</h2>
+    <div class="row justify-content-center gy-4">
+      <!-- Team Member Card -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="team-card">
+          <img src="{% static 'images/team/mursalatul.jpg' %}" alt="Md Mursalatul Islam Pallob">
+          <h5>Md Mursalatul Islam Pallob</h5>
+          <p class="text-muted">B.Sc. Student, DIU</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="team-card">
+          <img src="{% static 'images/team/nahid_usha.jpg' %}" alt="Nahid Usha">
+          <h5>Nahid Usha</h5>
+          <p class="text-muted">B.Sc. Student, DIU</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="team-card">
+          <img src="{% static 'images/team/farnaz_orpita.jpg' %}" alt="Farnaz Bashir Orpita">
+          <h5>Farnaz Bashir Orpita</h5>
+          <p class="text-muted">B.Sc. Student, DIU</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="team-card">
+          <img src="{% static 'images/team/nahid_hasan.jpg' %}" alt="Nahid Hasan">
+          <h5>Nahid Hasan</h5>
+          <p class="text-muted">B.Sc. Student, DIU</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="team-card">
+          <img src="{% static 'images/team/maliha_tahira.jpg' %}" alt="Maliha Nusrat Tahira">
+          <h5>Maliha Nusrat Tahira</h5>
+          <p class="text-muted">B.Sc. Student, DIU</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3) Why This Project Matters -->
+<section class="container my-5">
+  <h2 class="section-title">Why This Project Matters</h2>
+  <p>
+    Silent cries can hide urgent needs: a wet diaper, teething pain, or simply  
+    the need for a cuddle. Studies show that quick, accurate detection of crying  
+    reasons can reduce parental anxiety by over 40% and help infants receive  
+    timely care—boosting both emotional bonds and developmental outcomes.
+  </p>
+  <p>
+    By automating the analysis of pitch, intensity, and spectral features, we  
+    transform raw audio into actionable insights—so you never have to guess again.
+  </p>
+</section>
+
+<!-- 4) Research Insights -->
+<section class="research-section">
+  <div class="container">
+    <h2 class="section-title">Research Insights</h2>
+    <ul>
+      <li>
+        <strong>Acoustic Features:</strong> We extract MFCCs, formant frequencies,  
+        and temporal rhythms proven to correlate with hunger vs. discomfort cries.
+      </li>
+      <li>
+        <strong>Machine Learning:</strong> Our ensemble of CNN and SVM models  
+        achieves >92% accuracy on labeled audio datasets (Zhang et al., 2023).
+      </li>
+      <li>
+        <strong>Real-Time Feedback:</strong> Low-latency processing (<200ms)  
+        ensures you get the “reason” almost instantly after the first cry.
+      </li>
+      <li>
+        <strong>Clinical Relevance:</strong> Early detection can flag potential  
+        health issues (e.g. colic, reflux) for pediatric follow-up.
+      </li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

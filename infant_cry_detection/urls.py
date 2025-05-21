@@ -25,4 +25,5 @@ urlpatterns = [
     path('', include('result.urls')),
     path('', include('tutorial.urls')),
     path('', include('discomfort.urls')),
+    path('', include('about.urls')),
 ]
