@@ -9,6 +9,7 @@ from django.conf import settings
 from pydub import AudioSegment
 import pickle
 from django.core.files.storage import default_storage
+from result.models import TrustCounter
 
 # prediction section start
 ##########################
@@ -85,10 +86,20 @@ def result(request):
             os.remove(full_path)
         except OSError:
             pass
-        
+        # increase trust-counter database value
+        if label[:5] != "Error":
+            increment_trust_counter()
         return render(request, 'result.html', {'prediction': label})
+        
 
     return render(request, 'result.html', {'prediction': 'No file uploaded'})
 
 ##########################
 # prediction section end
+
+
+def increment_trust_counter():
+    # increase the number of times the test performed
+    counter, created = TrustCounter.objects.get_or_create(id=1)
+    counter.count_number += 1
+    counter.save()

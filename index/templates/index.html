@@ -390,8 +390,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Target count number - replace with your actual number
-        const target = 3500;
-
+        const target = parseInt('{{ trust_count|default:0 }}');
         // The DOM element where the count will be displayed
         const countElement = document.getElementById('trust-count');
 
