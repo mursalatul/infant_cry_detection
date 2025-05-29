@@ -378,13 +378,12 @@
 </section>
 
 <!-- parents counter starts -->
-<section id="parent-counter" class="py-5">
+<section id="trust-counter" class="py-5">
     <div class="container text-center">
         <h2 class="fw-bold mb-4 section-heading">A Growing Trust</h2>
-        <p class="lead mb-4">Trusted by</p>
-        <h1 id="parent-count" class="display-4 fw-bold text-primary">0</h1>
-        <p class="lead">parents who have used our Infant Cry Detection service to better understand their baby’s needs.
-        </p>
+        <p class="lead mb-4">Number of times parents trusted us</p>
+        <h1 id="trust-count" class="display-4 fw-bold text-primary">0</h1>
+        <p class="lead">Our Infant Cry Detection service has been trusted by parents multiple times to better understand their baby’s needs.</p>
     </div>
 </section>
 
@@ -394,7 +393,7 @@
         const target = 3500;
 
         // The DOM element where the count will be displayed
-        const countElement = document.getElementById('parent-count');
+        const countElement = document.getElementById('trust-count');
 
         // Initial count
         let count = 0;
@@ -445,12 +444,13 @@
         });
 
         // Get the section element to observe
-        const counterSection = document.getElementById('parent-counter');
+        const counterSection = document.getElementById('trust-counter');
 
         // Start observing the section
         observer.observe(counterSection);
     });
 </script>
+
 
 
 
