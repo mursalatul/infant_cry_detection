@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}title will be here{% endblock %}
+{% load static %}
+{% load tz %}
+
+<!-- custom style start -->
+{% block custom_styles %}
+<!-- make sure to use a style tag -->
+{% endblock %}
+<!-- custom style end -->
+
+{% block content %}
+    body content will be here
+{% endblock %}
