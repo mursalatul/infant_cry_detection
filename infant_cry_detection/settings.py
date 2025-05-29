@@ -62,7 +62,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'infant_cry_detection.urls'
 CSRF_TRUSTED_ORIGINS = [
-    "https://crydetection.onrender.com"
+    "https://infant-cry-detection.onrender.com",
 ]
 
 TEMPLATES = [
