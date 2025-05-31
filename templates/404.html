@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}title will be here{% endblock %}
+{% load static %}
+{% load tz %}
+
+<!-- custom style start -->
+{% block custom_styles %}
+<!-- make sure to use a style tag -->
+{% endblock %}
+<!-- custom style end -->
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<div class="container d-flex justify-content-center align-items-center"
+    style="height: 100vh; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+    <div class="text-center p-5 rounded shadow" style="background-color: white; max-width: 500px;">
+        <!-- Loss-indicating icon -->
+        <i class="fas fa-map-marked-alt text-primary" style="font-size: 6rem;"></i>
+        <h1 class="display-4 mt-3">404</h1>
+        <p class="lead text-muted">You seem to have taken a wrong turn...</p>
+        <p class="lead text-muted">Page can't found😓</p>
+        <a href="/" class="btn btn-outline-primary mt-3 px-4 py-2">Take Me Home</a>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .container .text-center {
+        animation: fadeIn 1s ease-out;
+    }
+</style>
+{% endblock %}
