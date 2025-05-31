@@ -88,6 +88,9 @@ def result(request):
             pass
         # increase trust-counter database value
         if label[:5] != "Error":
+            # this part will increase the result showing time as
+            # before showing time it is connecting to the database
+            # which needs extra time.
             increment_trust_counter()
         return render(request, 'result.html', {'prediction': label})
         
