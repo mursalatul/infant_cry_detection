@@ -1,270 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial - Cry Detection</title>
-    {% load django_bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% load static %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
-          /* Navbar Styles */
-        .navbar {
-            padding: 1rem 2%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-        }
-        
-        .navbar-nav .nav-item {
-            margin-left: 0.5rem;
-            margin-right: 0.5rem;
-        }
-        
-        .navbar-nav .nav-link {
-            color: var(--dark-color);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .navbar-nav .nav-link:hover {
-            color: var(--primary-color);
-        }
-        
-        .navbar-nav .nav-link:hover:after {
-            width: 100%;
-        }
-        
-        .navbar-nav .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-        
-        .navbar-nav .nav-link.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .navbar-nav .nav-link.active:after {
-            width: 100%;
-        }
+{% block title %}Tutorial{% endblock %}
+{% load static %}
+{% load tz %}
 
-         :root {
-            --primary-color: #3a7bd5; /* Professional blue */
-            --secondary-color: #00d2ff; /* Complementary teal */
-            --dark-color: #2c3e50; /* Dark slate for text */
-            --light-color: #f8f9fa; /* Light background */
-            --accent-color: #ff7e5f; /* Coral accent */
-            --success-color: #4CAF50; /* Green for positive actions */
-        }
-      /* Tutorial Section - Updated to match navbar colors */
-      .tutorial-section {
-          background-color: var(--light-color);
-          padding: 5rem 0;
-      }
-      
-      .section-heading {
-          position: relative;
-          margin-bottom: 3rem;
-      }
-      
-      .section-heading:after {
-          content: '';
-          position: absolute;
-          width: 60px;
-          height: 3px;
-          background-color: var(--primary-color);
-          bottom: -15px;
-          left: 50%;
-          transform: translateX(-50%);
-      }
-      
-      .tutorial-card {
-          background-color: white;
-          border-radius: 10px;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-          transition: all 0.3s ease;
-          height: 100%;
-          border-top: 3px solid var(--primary-color);
-      }
-      
-      .tutorial-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-      
-      .tutorial-card h2 {
-          color: var(--dark-color);
-          font-weight: 700;
-          margin-bottom: 1.5rem;
-          position: relative;
-      }
-      
-      .tutorial-card h2:after {
-          content: '';
-          position: absolute;
-          width: 40px;
-          height: 3px;
-          background-color: var(--primary-color);
-          bottom: -10px;
-          left: 0;
-      }
-      
-      .tutorial-card .text-primary {
-          color: var(--primary-color) !important;
-      }
-      
-      .tutorial-card .text-success {
-          color: var(--success-color) !important;
-      }
-      
-      .tutorial-step {
-          margin-bottom: 1.5rem;
-          padding-left: 1rem;
-          border-left: 3px solid rgba(13, 110, 253, 0.2);
-      }
-      
-      .tutorial-step h5 {
-          font-weight: 600;
-          color: var(--dark-color);
-      }
-      
-      .tips-list li {
-          margin-bottom: 1rem;
-          padding-left: 0.5rem;
-      }
-      
-      .tips-list i {
-          margin-right: 0.5rem;
-      }
-    </style>
-</head>
+<!-- custom style start -->
+{% block custom_styles %}
+<!-- make sure to use a style tag -->
+{% endblock %}
+<!-- custom style end -->
 
-<body>
-    <!-- navbar section start - Kept exactly as requested -->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">ICD</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'tutorial' %}">Tutorial</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cry_detection_view' %}">Cry Detect</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'discomfort' %}">Discomfort</a>
-                    </li>
-                </ul>
+{% block content %}
+<!-- Tutorial & Tips Section -->
+<section class="tutorial-section">
+    <div class="container">
+        <!-- Section Heading -->
+        <div class="row text-center mb-2">
+            <div class="col">
+                <h1 class="fw-bold section-heading">Tutorial & Tips</h1>
+                <p class="text-muted">Learn how to get the most out of our Infant Cry Detection system</p>
             </div>
         </div>
-    </nav>
-    <!-- navbar section end -->
 
-    <!-- Tutorial & Tips Section -->
-    <section class="tutorial-section">
-        <div class="container">
-            <!-- Section Heading -->
-            <div class="row text-center mb-2">
-                <div class="col">
-                    <h1 class="fw-bold section-heading">Tutorial & Tips</h1>
-                    <p class="text-muted">Learn how to get the most out of our Infant Cry Detection system</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <!-- Tutorial Column -->
-                <div class="col-md-6">
-                    <div class="tutorial-card p-4">
-                        <h2 class="text-primary">Tutorial</h2>
-                        <!-- Step 1 -->
-                        <div class="tutorial-step">
-                            <h5><i class="bi bi-wrench-adjustable-circle me-2 text-primary"></i>Step 1: Preparation</h5>
-                            <p>Ensure that you record in a quiet environment and have your device ready.</p>
-                        </div>
-                        <!-- Step 2 -->
-                        <div class="tutorial-step">
-                            <h5><i class="bi bi-upload me-2 text-primary"></i>Step 2: Upload</h5>
-                            <p>Navigate to the Cry Detection page and upload your audio file using the form.</p>
-                        </div>
-                        <!-- Step 3 -->
-                        <div class="tutorial-step">
-                            <h5><i class="bi bi-gear-wide-connected me-2 text-primary"></i>Step 3: Analysis</h5>
-                            <p>Our SVM model then analyzes the cry and categorizes it as hungry, tired, needing burping, belly pain, or indicating discomfort.</p>
-                        </div>
-                        <!-- Step 4 -->
-                        <div class="tutorial-step">
-                            <h5><i class="bi bi-check-circle me-2 text-primary"></i>Step 4: Results</h5>
-                            <p>View the outcome and follow the recommendations provided by the system. For further assistance, consult our FAQ or contact support.</p>
-                        </div>
+        <div class="row g-4">
+            <!-- Tutorial Column -->
+            <div class="col-md-6">
+                <div class="tutorial-card p-4">
+                    <h2 class="text-primary">Tutorial</h2>
+                    <!-- Step 1 -->
+                    <div class="tutorial-step">
+                        <h5><i class="bi bi-wrench-adjustable-circle me-2 text-primary"></i>Step 1: Preparation</h5>
+                        <p>Ensure that you record in a quiet environment and have your device ready.</p>
                     </div>
-                </div>
-
-                <!-- Tips Column -->
-                <div class="col-md-6">
-                    <div class="tutorial-card p-4">
-                        <h2 class="text-success">Tips</h2>
-                        <ul class="tips-list list-unstyled">
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>Optimal Recording:</strong> Use a quiet environment to avoid background noise.
-                            </li>
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>Consistent Distance:</strong> Keep a consistent distance between your baby and the recording device.
-                            </li>
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>File Format:</strong> Use standard audio formats such as .mp3 or .wav to ensure compatibility.
-                            </li>
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>Duration:</strong> Aim for a recording of at least 5-10 seconds of continuous audio.
-                            </li>
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>Microphone Settings:</strong> Ensure your device's microphone is configured to capture clear audio.
-                            </li>
-                            <li>
-                                <i class="bi bi-check2-circle text-success"></i>
-                                <strong>Real-Time Feedback:</strong> Consider recording multiple samples to compare results if needed.
-                            </li>
-                        </ul>
-                        <p class="mt-3 text-muted">
-                            Implementing these tips can help improve the accuracy and reliability of the detection system.
-                        </p>
+                    <!-- Step 2 -->
+                    <div class="tutorial-step">
+                        <h5><i class="bi bi-upload me-2 text-primary"></i>Step 2: Upload</h5>
+                        <p>Navigate to the Cry Detection page and upload your audio file using the form.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="tutorial-step">
+                        <h5><i class="bi bi-gear-wide-connected me-2 text-primary"></i>Step 3: Analysis</h5>
+                        <p>Our SVM model then analyzes the cry and categorizes it as hungry, tired, needing burping,
+                            belly pain, or indicating discomfort.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="tutorial-step">
+                        <h5><i class="bi bi-check-circle me-2 text-primary"></i>Step 4: Results</h5>
+                        <p>View the outcome and follow the recommendations provided by the system. For further
+                            assistance, consult our FAQ or contact support.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Bootstrap 5 JS Bundle (including Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            <!-- Tips Column -->
+            <div class="col-md-6">
+                <div class="tutorial-card p-4">
+                    <h2 class="text-success">Tips</h2>
+                    <ul class="tips-list list-unstyled">
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>Optimal Recording:</strong> Use a quiet environment to avoid background noise.
+                        </li>
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>Consistent Distance:</strong> Keep a consistent distance between your baby and the
+                            recording device.
+                        </li>
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>File Format:</strong> Use standard audio formats such as .mp3 or .wav to ensure
+                            compatibility.
+                        </li>
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>Duration:</strong> Aim for a recording of at least 5-10 seconds of continuous audio.
+                        </li>
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>Microphone Settings:</strong> Ensure your device's microphone is configured to
+                            capture clear audio.
+                        </li>
+                        <li>
+                            <i class="bi bi-check2-circle text-success"></i>
+                            <strong>Real-Time Feedback:</strong> Consider recording multiple samples to compare results
+                            if needed.
+                        </li>
+                    </ul>
+                    <p class="mt-3 text-muted">
+                        Implementing these tips can help improve the accuracy and reliability of the detection system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
