@@ -103,12 +103,117 @@
 
 
         /* Navbar Styles */
-        .navbar {
-            padding: 1rem 2%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        nav.navbar {
+            background: linear-gradient(145deg, #7b8fa1, #5e7489);
+            /* Subtle gradient for depth */
+            color: white;
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.4),
+                /* Strong outer shadow for depth */
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+                /* Subtle inner shadow */
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            /* Inner light highlight */
+            border-radius: 1.5rem;
+            /* Smooth rounded corners */
+            margin: 0.7rem auto;
+            width: calc(100% - 1rem);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            /* Subtle light border */
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
         }
+
+        /* Add glowing edges with reduced intensity */
+        nav.navbar:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0));
+            z-index: -1;
+            filter: blur(10px);
+            /* Softer blur */
+            animation: subtleGlowEffect 6s infinite alternate;
+        }
+
+        /* Interactive hover effect */
+        nav.navbar:hover {
+            transform: scale(1.01) translateY(-2px);
+            /* Slight lift and scale */
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, 0.45),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.1);
+            /* Subtle enhanced shadows */
+        }
+
+        /* Animated underline effect for links */
+        nav.navbar .nav-link {
+            position: relative;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease-in-out;
+        }
+
+        nav.navbar .nav-link:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        nav.navbar .nav-link:hover:before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        nav.navbar .nav-link:hover {
+            color: #d1d9e6;
+            /* Lightened hover color */
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+            /* Subtle glow effect */
+        }
+
+        @keyframes subtleGlowEffect {
+            0% {
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0));
+            }
+
+            100% {
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.1));
+            }
+        }
+
+        /* Add a muted gradient glow around the navbar */
+        nav.navbar:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+            border-radius: 1.5rem;
+            pointer-events: none;
+            /* Prevent interaction with glow */
+        }
+
+
+
+
+
 
         .navbar-brand {
             font-size: 1.75rem;
@@ -149,16 +254,15 @@
         }
 
         .navbar-nav .nav-link.active {
-            color: var(--primary-color);
+            color: white;
             font-weight: 600;
         }
 
         .navbar-nav .nav-link.active:after {
             width: 100%;
         }
-        /* navber style ends */
 
-        
+        /* navber style ends */
     </style>
     {% block custom_styles %}{% endblock %}
 </head>
