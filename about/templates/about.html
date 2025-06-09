@@ -13,6 +13,7 @@
     position: relative;
     display: inline-block;
   }
+
   .section-title:after {
     content: '';
     position: absolute;
@@ -30,6 +31,7 @@
     color: white;
     padding: 5rem 0;
   }
+
   .motivation-section .lead {
     font-size: 1.25rem;
     max-width: 800px;
@@ -39,18 +41,21 @@
   .team-section {
     padding: 4rem 0;
   }
+
   .team-card {
     background: white;
     border: none;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 2rem 1rem;
     text-align: center;
     transition: transform 0.3s ease;
   }
+
   .team-card:hover {
     transform: translateY(-5px);
   }
+
   .team-card img {
     width: 120px;
     height: 120px;
@@ -63,11 +68,13 @@
     background: var(--light-color);
     padding: 4rem 0;
   }
+
   .research-section ul {
     list-style: disc inside;
     max-width: 800px;
     margin: 0 auto;
   }
+
   .research-section ul li {
     margin-bottom: 0.75rem;
   }
@@ -78,9 +85,9 @@
   <div class="container">
     <h1 class="display-4">Why Infant Cry Detection?</h1>
     <p class="lead">
-      Every tear tells a story: hunger, discomfort, pain, or simply the need to be held.  
-      For new parents, guessing wrong can mean hours of worry, interrupted sleep, and  
-      stress. Our project harnesses cutting-edge audio analysis to give you clarity  
+      Every tear tells a story: hunger, discomfort, pain, or simply the need to be held.
+      For new parents, guessing wrong can mean hours of worry, interrupted sleep, and
+      stress. Our project harnesses cutting-edge audio analysis to give you clarity
       the moment your baby cries—bringing peace of mind when it matters most.
     </p>
   </div>
@@ -94,7 +101,8 @@
     <!-- Supervisor Section -->
     <div class="text-center mb-5 slide-in-up">
       <div class="team-card" style="display: inline-block; max-width: 200px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);">
-        <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name" style="width: 180px; height: 180px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
+        <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name"
+          style="width: 180px; height: 180px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
         <h4>Prof. Md Based</h4>
         <p class="text-muted">Chairman, Dept. of EEE, DIU</p>
       </div>
@@ -146,13 +154,13 @@
 <section class="container my-5">
   <h2 class="section-title">Why This Project Matters</h2>
   <p>
-    Silent cries can hide urgent needs: a wet diaper, teething pain, or simply  
-    the need for a cuddle. Studies show that quick, accurate detection of crying  
-    reasons can reduce parental anxiety by over 40% and help infants receive  
+    Silent cries can hide urgent needs: a wet diaper, teething pain, or simply
+    the need for a cuddle. Studies show that quick, accurate detection of crying
+    reasons can reduce parental anxiety by over 40% and help infants receive
     timely care—boosting both emotional bonds and developmental outcomes.
   </p>
   <p>
-    By automating the analysis of pitch, intensity, and spectral features, we  
+    By automating the analysis of pitch, intensity, and spectral features, we
     transform raw audio into actionable insights—so you never have to guess again.
   </p>
 </section>
@@ -163,24 +171,190 @@
     <h2 class="section-title">Research Insights</h2>
     <ul>
       <li>
-        <strong>Acoustic Features:</strong> We extract MFCCs, formant frequencies,  
+        <strong>Acoustic Features:</strong> We extract MFCCs, formant frequencies,
         and temporal rhythms proven to correlate with hunger vs. discomfort cries.
       </li>
       <li>
-        <strong>Machine Learning:</strong> Our ensemble of CNN and SVM models  
+        <strong>Machine Learning:</strong> Our ensemble of CNN and SVM models
         achieves >92% accuracy on labeled audio datasets (Zhang et al., 2023).
       </li>
       <li>
-        <strong>Real-Time Feedback:</strong> Low-latency processing (<200ms)  
-        ensures you get the “reason” almost instantly after the first cry.
-      </li>
+        <strong>Real-Time Feedback:</strong> Low-latency processing (<200ms) ensures you get the “reason” almost
+          instantly after the first cry. </li>
       <li>
-        <strong>Clinical Relevance:</strong> Early detection can flag potential  
+        <strong>Clinical Relevance:</strong> Early detection can flag potential
         health issues (e.g. colic, reflux) for pediatric follow-up.
       </li>
     </ul>
   </div>
 </section>
+
+<!-- show experimental results starts -->
+<style>
+  /* Page-specific styles */
+  .ai-accuracy-section {
+    padding: 4rem 2rem;
+    background-color: #f9f9f9;
+    border-top: 2px solid #ddd;
+  }
+
+  .ai-accuracy-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .ai-accuracy-section p {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #555;
+  }
+
+  .ai-accuracy-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-accuracy-table th,
+  .ai-accuracy-table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+  }
+
+  .ai-accuracy-table th {
+    background-color: #4CAF50;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  .ai-accuracy-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .ai-accuracy-table .highlighted-row {
+    background-color: #ffebcc;
+    /* Light orange for visibility */
+    font-weight: bold;
+    /* Make text bold */
+    border: 2px solid #ffa500;
+    /* Orange border for emphasis */
+  }
+</style>
+<!-- AI Model Accuracy Section -->
+<!-- AI Model Accuracy Section -->
+<section class="ai-accuracy-section ">
+  <div class="container my-5">
+    <h2 class="section-title">AI Model Performance Overview</h2>
+    <p class="section-description">
+      This table provides a comprehensive overview of the accuracy and performance metrics for various AI models.
+    </p>
+
+    <table class="ai-accuracy-table">
+      <thead>
+        <tr>
+          <th><span title="Reference number for the model in the table">No.</span></th>
+          <th><span title="Name of the AI model being evaluated">Model Name</span></th>
+          <th><span title="The overall accuracy percentage of the model">Accuracy</span></th>
+          <th><span title="The harmonic mean of Precision and Recall">F1 Score</span></th>
+          <th><span title="The proportion of true positives among all positive predictions">Precision</span></th>
+          <th><span title="The proportion of true positives among all actual positives">Recall</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlighted-row">
+          <td>1</td>
+          <td><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank">SVM</a></td>
+          <td>99.48</td>
+          <td>99.48</td>
+          <td>99.49</td>
+          <td>99.48</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Extra Trees</a></td>
+          <td>99.21</td>
+          <td>99.22</td>
+          <td>99.24</td>
+          <td>99.22</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="https://en.wikipedia.org/wiki/CatBoost" target="_blank">CatBoost</a></td>
+          <td>99.21</td>
+          <td>99.22</td>
+          <td>99.22</td>
+          <td>99.22</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forest</a></td>
+          <td>99.21</td>
+          <td>99.21</td>
+          <td>99.23</td>
+          <td>99.22</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><a href="https://en.wikipedia.org/wiki/LightGBM" target="_blank">LightGBM</a></td>
+          <td>99.21</td>
+          <td>99.21</td>
+          <td>99.22</td>
+          <td>99.22</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><a href="https://en.wikipedia.org/wiki/Histogram-based_gradient_boosting" target="_blank">HistGBM</a></td>
+          <td>98.95</td>
+          <td>98.95</td>
+          <td>98.96</td>
+          <td>98.95</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><a href="https://en.wikipedia.org/wiki/XGBoost" target="_blank">XGBoost</a></td>
+          <td>98.17</td>
+          <td>98.17</td>
+          <td>98.2</td>
+          <td>98.17</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><a href="https://en.wikipedia.org/wiki/Quadratic_discriminant_analysis" target="_blank">QDA</a></td>
+          <td>97.38</td>
+          <td>97.43</td>
+          <td>97.67</td>
+          <td>97.39</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron" target="_blank">MLP</a></td>
+          <td>97.38</td>
+          <td>97.31</td>
+          <td>97.49</td>
+          <td>97.37</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank">GBM</a></td>
+          <td>97.12</td>
+          <td>97.12</td>
+          <td>97.13</td>
+          <td>97.12</td>
+        </tr>
+        <!-- Add remaining rows -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
 
 <!-- 5) Research Paper Link -->
 <section class="container my-5">
@@ -188,7 +362,8 @@
   <p>
     Dive deeper into our methodology, experiments, and results by accessing the full research paper.
   </p>
-  <a href="https://your-research-paper-link.com" target="_blank" class="btn btn-primary" style="pointer-events: none; cursor: default;">
+  <a href="https://your-research-paper-link.com" target="_blank" class="btn btn-primary"
+    style="pointer-events: none; cursor: default;">
     View Research Paper
   </a>
 </section>
