@@ -7,49 +7,110 @@
 <!-- custom style start -->
 {% block custom_styles %}
 <style>
-    /* Loading screen styling */
-    #loading-screen {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: rgba(255, 255, 255, 0.8);
-        z-index: 1000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        visibility: hidden;
-        /* Hidden by default */
-    }
 
-    #loading-spinner {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #3498db;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-    }
+/* css for loading screen starts */
+/* Styling for the Loading Screen */
+#loading-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, #eaf6ff, #d0ebff); /* Soft blue-to-white gradient */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden; /* Hidden by default */
+    font-family: 'Arial', sans-serif;
+}
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
+/* Cloud Styling */
+.cloud {
+    width: 200px;
+    height: 120px;
+    background: #ffffff; /* White cloud */
+    border-radius: 100px; /* Makes it look fluffy */
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: float 3s ease-in-out infinite;
+}
 
-        100% {
-            transform: rotate(360deg);
-        }
-    }
+/* Adding "Fluffy" Extensions to the Cloud */
+.cloud:before,
+.cloud:after {
+    content: '';
+    position: absolute;
+    background: #ffffff;
+    width: 120px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.cloud:before {
+    top: -30px;
+    left: -40px;
+}
+
+.cloud:after {
+    top: -30px;
+    right: -40px;
+}
+
+/* Pacifier Inside the Cloud */
+.pacifier {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 2s linear infinite;
+}
+
+.pacifier img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Loading Text Below the Cloud */
+.loading-text {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #4e54c8; /* Deep blue for text */
+    font-weight: bold;
+}
+
+/* Floating Cloud Animation */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Rotating Pacifier Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* css for loading screen starts */
+
 </style>
 {% endblock %}
 <!-- custom style end -->
 
 {% block content %}
-<!-- Loading Screen -->
+
+<!-- loading screen showing part -->
 <div id="loading-screen">
-    <div id="loading-spinner"></div>
+    <div class="cloud">
+        <div class="pacifier">
+            <img src="{% static 'images/pacifier_icon.png' %}" alt="Loading..." />
+        </div>
+    </div>
+    <p class="loading-text">Analyzing your baby's cry with our machine learning...</p>
 </div>
+
+
 <!-- Page Section with Two-Column Layout -->
 <section class="upload-section">
     <div class="container">
