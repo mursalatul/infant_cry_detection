@@ -38,31 +38,69 @@
     margin: 1.5rem auto 0;
   }
 
-  .team-section {
-    padding: 4rem 0;
-  }
+  /* css for team section start */
+.team-section {
+  padding: 4rem 0;
+  background: linear-gradient(to bottom right, var(--primary-color), #E8F9FF);
+  color: white;
+}
 
-  .team-card {
-    background: white;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 2rem 1rem;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
+.team-card {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
 
-  .team-card:hover {
-    transform: translateY(-5px);
-  }
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
 
-  .team-card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-  }
+.team-card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-front {
+  background: #FBFBFB;
+  color: black;
+}
+
+.card-front img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.card-back {
+  background: #333;
+  color: white;
+  transform: rotateY(180deg);
+  padding: 1rem;
+  text-align: center;
+}
+
+  /* css for team section end */
 
   .research-section {
     background: var(--light-color);
@@ -99,55 +137,99 @@
     <h2 class="section-title">Meet Our Team</h2>
 
     <!-- Supervisor Section -->
-    <div class="text-center mb-5 slide-in-up">
-      <div class="team-card" style="display: inline-block; max-width: 200px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);">
-        <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name"
-          style="width: 180px; height: 180px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
-        <h4>Prof. Md Based</h4>
-        <p class="text-muted">Chairman, Dept. of EEE, DIU</p>
+    <div class="text-center mb-5 supervisor-card">
+      <div class="team-card">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name">
+            <h4>Prof. Md Based</h4>
+            <p class="text-muted">Chairman, Dept. of EEE, DIU</p>
+          </div>
+          <div class="card-back">
+            <p>
+              Prof. Md Based is the guiding force behind our project. His vision drives us toward excellence.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Team Members Grid -->
     <div class="row justify-content-center gy-4">
-      <div class="col-6 col-md-4 col-lg-2 slide-in-left">
+      <div class="col-6 col-md-4 col-lg-2">
         <div class="team-card">
-          <img src="{% static 'images/team/mursalatul.jpg' %}" alt="Md Mursalatul Islam Pallob">
-          <h5>Md Mursalatul Islam Pallob</h5>
-          <p class="text-muted">B.Sc. Student, DIU</p>
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="{% static 'images/team/mursalatul.jpg' %}" alt="Md Mursalatul Islam Pallob">
+              <h5>Md Mursalatul Islam Pallob</h5>
+              <p class="text-muted">B.Sc. Student, DIU</p>
+            </div>
+            <div class="card-back">
+              <p>Enthusiastic about competitive programming, python and machine learning.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-6 col-md-4 col-lg-2 slide-in-left">
+      <div class="col-6 col-md-4 col-lg-2">
         <div class="team-card">
-          <img src="{% static 'images/team/nahid_usha.jpg' %}" alt="Nahid Usha">
-          <h5>Nahid Usha</h5>
-          <p class="text-muted">B.Sc. Student, DIU</p>
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="{% static 'images/team/nahid_usha.jpg' %}" alt="Nahid Usha">
+              <h5>Nahid Usha</h5>
+              <p class="text-muted">B.Sc. Student, DIU</p>
+            </div>
+            <div class="card-back">
+              <p>Specializes in web development, django, back-end system and algorithm design.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-6 col-md-4 col-lg-2 slide-in-down">
+      <div class="col-6 col-md-4 col-lg-2">
         <div class="team-card">
-          <img src="{% static 'images/team/farnaz_orpita.jpg' %}" alt="Farnaz Bashir Orpita">
-          <h5>Farnaz Bashir Orpita</h5>
-          <p class="text-muted">B.Sc. Student, DIU</p>
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="{% static 'images/team/farnaz_orpita.jpg' %}" alt="Farnaz Bashir Orpita">
+              <h5>Farnaz Bashir Orpita</h5>
+              <p class="text-muted">B.Sc. Student, DIU</p>
+            </div>
+            <div class="card-back">
+              <p>Focuses on deep learning architectures and model optimization.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-6 col-md-4 col-lg-2 slide-in-right">
+      <div class="col-6 col-md-4 col-lg-2">
         <div class="team-card">
-          <img src="{% static 'images/team/nahid_hasan.jpg' %}" alt="Nahid Hasan">
-          <h5>Nahid Hasan</h5>
-          <p class="text-muted">B.Sc. Student, DIU</p>
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="{% static 'images/team/nahid_hasan.jpg' %}" alt="Nahid Hasan">
+              <h5>Nahid Hasan</h5>
+              <p class="text-muted">B.Sc. Student, DIU</p>
+            </div>
+            <div class="card-back">
+              <p>Passionate about data preprocessing and performance benchmarking.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-6 col-md-4 col-lg-2 slide-in-right">
+      <div class="col-6 col-md-4 col-lg-2">
         <div class="team-card">
-          <img src="{% static 'images/team/maliha_tahira.jpg' %}" alt="Maliha Nusrat Tahira">
-          <h5>Maliha Nusrat Tahira</h5>
-          <p class="text-muted">B.Sc. Student, DIU</p>
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="{% static 'images/team/maliha_tahira.jpg' %}" alt="Maliha Nusrat Tahira">
+              <h5>Maliha Nusrat Tahira</h5>
+              <p class="text-muted">B.Sc. Student, DIU</p>
+            </div>
+            <div class="card-back">
+              <p>Excels in UI/UX and integrating research findings into solutions.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
 
 
 <!-- 3) Why This Project Matters -->
