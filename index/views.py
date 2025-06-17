@@ -9,7 +9,6 @@ def index(request):
     
     # faq question & answers
     faq_data = FAQ.objects.all()
-    print(faq_data)
-    print("ok")
+    
     return render(request, 'index.html', {'trust_count': trust_count.count_number, 'faq_data': faq_data,})
 

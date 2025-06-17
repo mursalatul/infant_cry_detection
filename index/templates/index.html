@@ -371,7 +371,8 @@
         <h2 class="fw-bold mb-4 section-heading">A Growing Trust</h2>
         <p class="lead mb-4">Number of times parents trusted us</p>
         <h1 id="trust-count" class="display-4 fw-bold text-primary">0</h1>
-        <p class="lead">Our Infant Cry Detection service has been trusted by parents multiple times to better understand their baby’s needs.</p>
+        <p class="lead">Our Infant Cry Detection service has been trusted by parents multiple times to better understand
+            their baby’s needs.</p>
     </div>
 </section>
 
@@ -440,6 +441,51 @@
 <!-- parents counter ends -->
 
 <!-- some common question section start-->
+<style>
+    #faq-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 7rem 0;
+        color: rgb(255, 255, 255);
+        position: relative;
+        overflow: hidden;
+    }
+
+    #faq-section h2,
+    #faq-section .accordion-button {
+        color: #ffffff;
+        /* White text for the heading and accordion buttons */
+    }
+
+    #faq-section .accordion-button::after {
+        filter: brightness(0) invert(1);
+        /* Inverts the color of the accordion arrow to white */
+    }
+
+    #faq-section .accordion-item {
+        background-color: rgba(255, 255, 255, 0.1);
+        /* Semi-transparent background for items */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    #faq-section .accordion-body {
+        color: #b0ecba;
+        /* A slightly off-white for the answer text */
+    }
+
+    #faq-section .accordion-button.collapsed {
+        background-color: transparent;
+    }
+
+    #faq-section .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #bdbfdb;
+    }
+
+    #faq-section .section-heading:after {
+        background: white;
+        /* Make the heading underline white */
+    }
+</style>
 <section id="faq-section" class="py-5">
     <div class="container">
         <h2 class="fw-bold mb-4 section-heading text-center">Frequently Asked Questions</h2>
@@ -447,21 +493,14 @@
             {% for faq in faq_data %}
             <div class="accordion-item mb-3">
                 <h3 class="accordion-header" id="faq-header-{{ forloop.counter }}">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#faq-collapse-{{ forloop.counter }}"
-                        aria-expanded="false"
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq-collapse-{{ forloop.counter }}" aria-expanded="false"
                         aria-controls="faq-collapse-{{ forloop.counter }}">
                         {{ faq.question }}
                     </button>
                 </h3>
-                <div
-                    id="faq-collapse-{{ forloop.counter }}"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="faq-header-{{ forloop.counter }}"
-                    data-bs-parent="#faq-container">
+                <div id="faq-collapse-{{ forloop.counter }}" class="accordion-collapse collapse"
+                    aria-labelledby="faq-header-{{ forloop.counter }}" data-bs-parent="#faq-container">
                     <div class="accordion-body">
                         {{ faq.answer }}
                     </div>
