@@ -90,20 +90,20 @@ WSGI_APPLICATION = 'infant_cry_detection.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # uncomment this section if you need db.sqlite
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # use railway database
-DATABASES = {
-    'default': dj_database_url.parse(
-        config('DATABASE_URL'),
-        conn_max_age=600  # Optional: keeps the connection open longer
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         config('DATABASE_URL'),
+#         conn_max_age=600  # Optional: keeps the connection open longer
+#     )
+# }
 
 
 # Password validation
