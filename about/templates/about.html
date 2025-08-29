@@ -1,41 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Team & Motivation{% endblock %}
+{% block title %}Research & Innovation{% endblock %}
 
 {% block content %}
 <style>
-  /* Page-specific styles */
+  /* Modern styling with enhanced visuals */
+  :root {
+    --gradient-primary: linear-gradient(135deg, #3B82F6, #2563EB);
+    --gradient-secondary: linear-gradient(135deg, #7C3AED, #5B21B6);
+    --bg-blur: rgba(255, 255, 255, 0.9);
+  }
+
   .section-title {
     text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 700;
+    margin-bottom: 2.5rem;
+    font-weight: 800;
     position: relative;
     display: inline-block;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .section-title:after {
     content: '';
     position: absolute;
-    width: 60px;
+    width: 80px;
     height: 4px;
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--secondary-color);
+    background: var(--gradient-primary);
     border-radius: 2px;
   }
 
-  .motivation-section {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  .hero-section {
+    background: var(--gradient-primary);
     color: white;
-    padding: 5rem 0;
+    padding: 8rem 0;
+    position: relative;
+    overflow: hidden;
   }
 
-  .motivation-section .lead {
-    font-size: 1.25rem;
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-section .lead {
+    font-size: 1.35rem;
     max-width: 800px;
-    margin: 1.5rem auto 0;
+    margin: 2rem auto 0;
+    line-height: 1.8;
   }
 
   /* css for team section start */
@@ -118,16 +146,53 @@
   }
 </style>
 
-<!-- 1) Hero / Emotional Motivation -->
-<section class="motivation-section text-center">
-  <div class="container">
-    <h1 class="display-4">Why Infant Cry Detection?</h1>
+<!-- Hero Section with Research Focus -->
+<section class="hero-section text-center">
+  <div class="container hero-content">
+    <h1 class="display-3 fw-bold mb-4">Revolutionizing Infant Care Through AI</h1>
     <p class="lead">
-      Every tear tells a story: hunger, discomfort, pain, or simply the need to be held.
-      For new parents, guessing wrong can mean hours of worry, interrupted sleep, and
-      stress. Our project harnesses cutting-edge audio analysis to give you clarity
-      the moment your baby cries—bringing peace of mind when it matters most.
+      Through advanced machine learning and audio signal processing, we've developed a groundbreaking system that achieves 
+      <span class="fw-bold">99.48% accuracy</span> in infant cry detection and classification. Our research combines 
+      cutting-edge AI with practical applications to transform how we understand and respond to infant needs.
     </p>
+
+  </div>
+</section>
+
+<!-- Key Features Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="d-flex align-items-center mb-3">
+          <div class="fs-1 me-3 text-primary">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3 class="h4 mb-0">Advanced AI</h3>
+        </div>
+        <p class="text-muted">Utilizes state-of-the-art Support Vector Machine (SVM) algorithms achieving 99.48% accuracy in cry classification.</p>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="d-flex align-items-center mb-3">
+          <div class="fs-1 me-3 text-primary">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3 class="h4 mb-0">Real-time Analysis</h3>
+        </div>
+        <p class="text-muted">Processes and analyzes cry signals in real-time, providing immediate insights to caregivers.</p>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="d-flex align-items-center mb-3">
+          <div class="fs-1 me-3 text-primary">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3 class="h4 mb-0">User-Friendly</h3>
+        </div>
+        <p class="text-muted">Accessible through an intuitive web interface, making our technology available to parents worldwide.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -143,7 +208,7 @@
           <div class="card-front">
             <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name">
             <h4>Prof. Md Based</h4>
-            <p class="text-muted">Chairman, Dept. of EEE, Additional Director, Research Cell, DIU</p>
+            <p class="text-muted">Chairman, Dept. of CSE, DIU</p>
           </div>
           <div class="card-back">
             <p>
@@ -232,19 +297,122 @@
 
 
 
-<!-- 3) Why This Project Matters -->
-<section class="container my-5">
-  <h2 class="section-title">Why This Project Matters</h2>
-  <p>
-    Silent cries can hide urgent needs: a wet diaper, teething pain, or simply
-    the need for a cuddle. Studies show that quick, accurate detection of crying
-    reasons can reduce parental anxiety by over 40% and help infants receive
-    timely care—boosting both emotional bonds and developmental outcomes.
-  </p>
-  <p>
-    By automating the analysis of pitch, intensity, and spectral features, we
-    transform raw audio into actionable insights—so you never have to guess again.
-  </p>
+<!-- Research Impact Section -->
+<section class="py-5" id="research">
+  <div class="container">
+    <h2 class="section-title text-center">Research Impact</h2>
+    
+    <div class="row g-4 mt-4">
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="h4 mb-4">Technical Innovation</h3>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Advanced SVM implementation achieving 99.48% accuracy
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Real-time processing with sub-200ms latency
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Novel feature extraction techniques for cry analysis
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Scalable cloud-based architecture for global accessibility
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="h4 mb-4">Clinical Applications</h3>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Early detection of potential health issues
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Support for healthcare professionals in diagnosis
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Reduced parental anxiety and improved care response
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Integration potential with existing healthcare systems
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Research Methodology -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center">Our Methodology</h2>
+    
+    <div class="row g-4 mt-4">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-4 mb-3 text-primary">
+              <i class="fas fa-microphone"></i>
+            </div>
+            <h4>Data Collection</h4>
+            <p class="text-muted">High-quality audio samples collected across diverse environments and conditions</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-4 mb-3 text-primary">
+              <i class="fas fa-wave-square"></i>
+            </div>
+            <h4>Signal Processing</h4>
+            <p class="text-muted">Advanced acoustic feature extraction and noise reduction techniques</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-4 mb-3 text-primary">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h4>Model Training</h4>
+            <p class="text-muted">SVM optimization achieving industry-leading accuracy rates</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-4 mb-3 text-primary">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4>Validation</h4>
+            <p class="text-muted">Rigorous testing and validation across multiple datasets</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- 4) Research Insights -->
