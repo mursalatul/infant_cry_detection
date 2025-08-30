@@ -317,7 +317,7 @@
     /* Stats Counter */
     .stats-section {
         padding: 5rem 0;
-        background: var(--secondary-gradient);
+        background: linear-gradient(135deg, #2b32b2, #1488cc);
         color: white;
         text-align: center;
     }
@@ -420,10 +420,6 @@
                 <a href="{% url 'cry_detection_view' %}" class="btn-primary-modern">
                     <i class="bi bi-play-circle"></i>
                     Try Detection Now
-                </a>
-                <a href="#research" class="btn-secondary-modern">
-                    <i class="bi bi-graph-up"></i>
-                    View Research
                 </a>
             </div>
         </div>
@@ -668,10 +664,10 @@
                 </h2>
                 <div class="faq-list">
                     <div class="faq-item">
-                        <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">
                             How accurate is the cry detection system?
                         </button>
-                        <div id="faq1" class="collapse">
+                        <div id="faq1" class="collapse" aria-labelledby="faq1">
                             <div class="faq-answer">
                                 Our system achieves 99.48% accuracy, the highest ever reported in scientific literature for infant cry classification. This was validated through rigorous testing on the Donate a Cry Corpus dataset.
                             </div>
@@ -725,6 +721,29 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    // FAQ Accordion handling
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const target = this.getAttribute('data-bs-target');
+            const collapse = document.querySelector(target);
+            
+            // Close all other accordions
+            document.querySelectorAll('.collapse.show').forEach(item => {
+                if (item !== collapse) {
+                    item.classList.remove('show');
+                    const button = document.querySelector(`[data-bs-target="#${item.id}"]`);
+                    if (button) button.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Toggle current accordion
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+            collapse.classList.toggle('show');
+        });
+    });
+
     // Trust counter animation
     const target = parseInt('{{ trust_count|default:0 }}');
     const countElement = document.getElementById('trust-count');
