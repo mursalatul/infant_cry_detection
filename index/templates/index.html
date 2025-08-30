@@ -399,6 +399,75 @@
             justify-content: center;
         }
     }
+    /* Testimonials, Newsletter, Blog, and CTA styles */
+    .testimonials-section {
+        padding: 5rem 0;
+        background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.8rem;
+        box-shadow: 0 8px 30px rgba(16, 24, 40, 0.06);
+        border: 1px solid #eef2ff;
+        height: 100%;
+    }
+
+    .testimonial-quote {
+        font-size: 1rem;
+        color: #374151;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        font-weight: 700;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+    }
+
+    .newsletter-section {
+        padding: 3rem 0;
+        background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(20,136,204,0.03));
+        border-radius: 12px;
+        margin-top: 2rem;
+    }
+
+    .newsletter-input {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .newsletter-input input[type="email"] {
+        flex: 1;
+        padding: 0.9rem 1rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .newsletter-input button {
+        padding: 0.9rem 1.5rem;
+        border-radius: 9999px;
+        border: none;
+        background: var(--accent-color);
+        color: white;
+        font-weight: 700;
+    }
+
+    .blog-section {
+        padding: 4rem 0;
+        background: transparent;
+    }
+
+    .blog-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.2rem;
+        border: 1px solid #eef2ff;
+    }
 </style>
 {% endblock %}
 
@@ -655,6 +724,93 @@
 </section>
 
 <!-- FAQ Section -->
+<!-- Additional Content: Testimonials, Newsletter, Blog -->
+<section class="testimonials-section">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <div class="col-12">
+                <h3 class="fw-bold" style="font-size:2rem; color:var(--text-primary);">What Parents Say</h3>
+                <p class="text-muted">Real stories from families who used our system to better understand their babies.</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"This system helped me identify hunger vs. discomfort quickly — lifesaver during midnight checks."</p>
+                    <div class="testimonial-author">— Asha, New Parent</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Fast, private, and reliable. I trust the suggestions and it reduced my anxiety a lot."</p>
+                    <div class="testimonial-author">— Miguel, Father of Two</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Clear guidance after each detection made caregiving simpler for our whole family."</p>
+                    <div class="testimonial-author">— Priya, Parent Advocate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter-section">
+    <div class="container text-center">
+        <h4 class="fw-bold">Stay Updated</h4>
+        <p class="text-muted">Subscribe for updates, parenting tips, and research summaries.</p>
+        <div class="newsletter-input mt-3">
+            <input type="email" placeholder="Enter your email" aria-label="Email for newsletter">
+            <button type="button">Subscribe</button>
+        </div>
+    </div>
+</section>
+
+<section class="blog-section">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <div class="col-12">
+                <h3 class="fw-bold" style="font-size:2rem; color:var(--text-primary);">From Our Blog</h3>
+                <p class="text-muted">Helpful articles about infantcare, sleep, and audio-based monitoring.</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <h5 class="mb-2">Understanding Infant Cries</h5>
+                    <p class="mb-0 text-muted">An overview of acoustic markers that distinguish different cry causes.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <h5 class="mb-2">Safe Audio Practices</h5>
+                    <p class="mb-0 text-muted">How we ensure privacy and best practices for on-device audio processing.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <h5 class="mb-2">Tips for New Parents</h5>
+                    <p class="mb-0 text-muted">Quick, actionable tips to help soothe your baby based on detection results.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Secondary CTA -->
+<section class="hero-section" style="padding:3rem 0; min-height:unset;">
+    <div class="container">
+        <div class="hero-content">
+            <h3 class="hero-title" style="font-size:1.8rem;">Ready to try it?</h3>
+            <p class="hero-subtitle">Start a detection session now and get instant, private results.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'cry_detection_view' %}" class="btn-primary-modern">Try Detection</a>
+                <a href="{% url 'about' %}" class="btn-secondary-modern">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
 <section class="faq-section">
     <div class="container">
         <div class="row">
