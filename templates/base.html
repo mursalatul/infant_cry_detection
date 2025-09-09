@@ -186,14 +186,11 @@
 
     {% include "footer.html" %}
 
+    <!-- bootstrap js -->
+ 
 
 
-
-    <!-- global JS (at the bottom for faster load) -->
-    <script src="{% static 'js/global.js' %}"></script>
-
-
-    <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
     const navbarCollapse = document.getElementById("navbarNavDropdown");
@@ -208,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
 
 </body>
 
