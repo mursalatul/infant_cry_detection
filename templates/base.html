@@ -22,42 +22,51 @@
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
 
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary-color: #2377ec;
-            /* Professional blue */
-            --secondary-color: #6fe5ff;
-            /* Complementary teal */
-            --dark-color: #2c3e50;
-            /* Dark slate for text */
-            --light-color: #f8f9fa;
-            /* Light background */
-            --accent-color: #ff7e5f;
-            /* Coral accent */
-            --success-color: #4CAF50;
-            /* Green for positive actions */
+            --primary-color: #1a365d; /* Classic Navy */
+            --secondary-color: #c5a059; /* Soft Gold */
+            --dark-color: #2d3748; /* Deep Slate */
+            --light-color: #fcfdfd; /* Off-white */
+            --accent-color: #e53e3e; /* Warm Red */
+            --success-color: #38a169;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-body);
             color: var(--dark-color);
-            line-height: 1.6;
+            line-height: 1.7;
+            background-color: var(--light-color);
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: var(--font-heading);
+            font-weight: 700;
         }
 
         /* footer start */
         /* Footer Styles */
         footer {
-            background: linear-gradient(135deg, var(--dark-color), #1a252f) !important;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-color) !important;
+            font-family: var(--font-body);
+            border-top: 4px solid var(--secondary-color);
         }
 
         footer a {
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         footer a:hover {
             color: var(--secondary-color) !important;
-            padding-left: 5px;
+            padding-left: 8px;
         }
 
         footer h5 {
@@ -127,8 +136,11 @@
             color: var(--dark-color);
             font-weight: 500;
             padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
         .navbar-nav .nav-link:after {
@@ -138,8 +150,8 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background-color: var(--primary-color);
-            transition: all 0.3s ease;
+            background-color: var(--secondary-color);
+            transition: var(--transition);
             transform: translateX(-50%);
         }
 

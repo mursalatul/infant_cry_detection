@@ -7,11 +7,11 @@
 {% block custom_styles %}
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        --warning-gradient: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
+        --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, #112240 100%);
+        --secondary-gradient: linear-gradient(135deg, var(--secondary-color) 0%, #a3823c 100%);
+        --accent-gradient: linear-gradient(135deg, var(--secondary-color) 0%, #d4af37 100%);
+        --success-gradient: linear-gradient(135deg, var(--success-color) 0%, #2f855a 100%);
+        --warning-gradient: linear-gradient(135deg, var(--accent-color) 0%, #c53030 100%);
         --glass-bg: rgba(255, 255, 255, 0.1);
         --glass-border: rgba(255, 255, 255, 0.2);
     }
@@ -152,7 +152,7 @@
         font-size: 1.3rem;
         font-weight: 700;
         margin-bottom: 0.8rem;
-        color: #2d3748;
+        color: var(--dark-color);
     }
 
     .step-content p {
@@ -605,7 +605,7 @@
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold" style="font-size: 2.5rem; color: #2d3748;">
+            <h2 class="fw-bold" style="font-size: 2.5rem; color: var(--dark-color);">
                 Why Our Tutorial Works
             </h2>
             <p class="lead text-muted">

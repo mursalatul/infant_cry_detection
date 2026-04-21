@@ -7,8 +7,8 @@
 <style>
   /* Modern styling with enhanced visuals */
   :root {
-    --gradient-primary: linear-gradient(135deg, #3B82F6, #2563EB);
-    --gradient-secondary: linear-gradient(135deg, #7C3AED, #5B21B6);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), #112240);
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #a3823c);
     --bg-blur: rgba(255, 255, 255, 0.9);
   }
 
@@ -109,8 +109,8 @@
 }
  
 .card-front {
-  background: linear-gradient(to bottom right, var(--primary-color), #E8F9FF);
-  color: black;
+  background: linear-gradient(to bottom right, var(--primary-color), var(--dark-color));
+  color: white;
 }
 
 .card-front img {
@@ -121,7 +121,7 @@
 }
 
 .card-back {
-  background: #333;
+  background: var(--dark-color);
   color: white;
   transform: rotateY(180deg);
   padding: 1rem;
@@ -479,7 +479,7 @@
   }
 
   .ai-accuracy-table th {
-    background-color: #4CAF50;
+    background-color: var(--primary-color);
     color: white;
     text-transform: uppercase;
   }
@@ -489,12 +489,12 @@
   }
 
   .ai-accuracy-table .highlighted-row {
-    background-color: #ffebcc;
-    /* Light orange for visibility */
+    background-color: rgba(197, 160, 89, 0.2);
+    /* Light gold for visibility */
     font-weight: bold;
     /* Make text bold */
-    border: 2px solid #ffa500;
-    /* Orange border for emphasis */
+    border: 2px solid var(--secondary-color);
+    /* Gold border for emphasis */
   }
 </style>
 <!-- AI Model Accuracy Section -->

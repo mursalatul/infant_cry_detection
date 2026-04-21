@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}title will be here{% endblock %}
+{% block title %}Page Not Found - Infant Cry Detection{% endblock %}
 {% load static %}
 {% load tz %}
 
@@ -14,14 +14,14 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <div class="container d-flex justify-content-center align-items-center"
-    style="height: 100vh; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-    <div class="text-center p-5 rounded shadow" style="background-color: white; max-width: 500px;">
+    style="height: 100vh; background: var(--light-color);">
+    <div class="text-center p-5 rounded shadow" style="background-color: white; max-width: 500px; border-top: 4px solid var(--secondary-color);">
         <!-- Loss-indicating icon -->
-        <i class="fas fa-map-marked-alt text-primary" style="font-size: 6rem;"></i>
-        <h1 class="display-4 mt-3">404</h1>
+        <i class="fas fa-map-marked-alt" style="font-size: 6rem; color: var(--primary-color);"></i>
+        <h1 class="display-4 mt-3 fw-bold" style="font-family: var(--font-heading); color: var(--primary-color);">404</h1>
         <p class="lead text-muted">You seem to have taken a wrong turn...</p>
-        <p class="lead text-muted">Page can't found😓</p>
-        <a href="/" class="btn btn-outline-primary mt-3 px-4 py-2">Take Me Home</a>
+        <p class="lead text-muted">Page not found 😓</p>
+        <a href="/" class="btn mt-3 px-4 py-2 text-white" style="background-color: var(--primary-color); border-radius: 50px;">Take Me Home</a>
     </div>
 </div>
 

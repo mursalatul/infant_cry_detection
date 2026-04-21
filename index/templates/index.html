@@ -7,13 +7,13 @@
 {% block custom_styles %}
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --accent-color: #4f46e5;
-        --text-primary: #1f2937;
-        --text-secondary: #6b7280;
-        --glass-bg: rgba(255, 255, 255, 0.1);
-        --glass-border: rgba(255, 255, 255, 0.2);
+        --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, #112240 100%);
+        --secondary-gradient: linear-gradient(135deg, var(--secondary-color) 0%, #a3823c 100%);
+        --accent-color: var(--secondary-color);
+        --text-primary: var(--dark-color);
+        --text-secondary: #4a5568;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
     }
 
     /* Hero Section with Modern Glass Effect */
@@ -317,7 +317,7 @@
     /* Stats Counter */
     .stats-section {
         padding: 5rem 0;
-        background: linear-gradient(135deg, #2b32b2, #1488cc);
+        background: var(--primary-gradient);
         color: white;
         text-align: center;
     }
@@ -429,7 +429,7 @@
 
     .newsletter-section {
         padding: 3rem 0;
-        background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(20,136,204,0.03));
+        background: linear-gradient(90deg, rgba(26,54,93,0.06), rgba(197,160,89,0.08));
         border-radius: 12px;
         margin-top: 2rem;
     }

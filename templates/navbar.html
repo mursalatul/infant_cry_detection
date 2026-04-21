@@ -1,13 +1,16 @@
 <!-- navbar.html -->
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand text-primary" href="{% url 'index' %}">ICD</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+<nav class="navbar sticky-top navbar-expand-lg navbar-light shadow-sm" style="background-color: var(--light-color); border-bottom: 2px solid var(--secondary-color);">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}" style="color: var(--primary-color) !important; font-size: 1.8rem; letter-spacing: 1px;">
+            <i class="bi bi-moon-stars-fill me-2" style="color: var(--secondary-color);"></i>
+            <span class="fw-bold">ICD</span>
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-3">
                 <li class="nav-item">
                     <a class="nav-link{% if request.resolver_match.url_name == 'index' %} active{% endif %}" href="{% url 'index' %}">Home</a>
                 </li>
