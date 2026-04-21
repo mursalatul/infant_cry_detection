@@ -7,37 +7,27 @@
 {% block custom_styles %}
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, #112240 100%);
-        --secondary-gradient: linear-gradient(135deg, var(--secondary-color) 0%, #a3823c 100%);
-        --accent-gradient: linear-gradient(135deg, var(--secondary-color) 0%, #d4af37 100%);
-        --success-gradient: linear-gradient(135deg, var(--success-color) 0%, #2f855a 100%);
-        --warning-gradient: linear-gradient(135deg, var(--accent-color) 0%, #c53030 100%);
-        --glass-bg: rgba(255, 255, 255, 0.1);
-        --glass-border: rgba(255, 255, 255, 0.2);
+        --tut-primary: var(--primary-color, #1a365d);
+        --tut-secondary: var(--secondary-color, #c5a059);
+        --tut-bg: #f8fafc;
+        --tut-text: #2d3748;
+        --tut-muted: #718096;
     }
 
     /* Hero Section */
     .tutorial-hero {
-        background: var(--primary-gradient);
-        padding: 5rem 0;
+        background: linear-gradient(135deg, var(--tut-primary) 0%, #0f2038 100%);
+        padding: 6rem 0;
         color: white;
         position: relative;
-        overflow: hidden;
     }
 
     .tutorial-hero::before {
         content: '';
         position: absolute;
-        width: 200%;
-        height: 200%;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-        animation: drift 30s linear infinite;
-        opacity: 0.3;
-    }
-
-    @keyframes drift {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-50px, -50px); }
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url('data:image/svg+xml,<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1.5" fill="rgba(197, 160, 89, 0.15)"/></svg>');
+        opacity: 0.8;
     }
 
     .hero-content {
@@ -47,341 +37,272 @@
     }
 
     .hero-title {
-        font-size: 3rem;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #e0f2fe);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: white;
     }
 
-    /* Modern Card Design */
-    .modern-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 25px;
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 650px;
+        margin: 0 auto 3rem;
+        font-family: var(--font-body, 'Inter', sans-serif);
+    }
+
+    /* Info Badges */
+    .hero-badge {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        margin: 0.5rem;
+        min-width: 140px;
+        transition: transform 0.3s ease;
+    }
+    .hero-badge:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .hero-badge i {
+        font-size: 1.5rem;
+        color: var(--tut-secondary);
+        margin-bottom: 0.5rem;
+    }
+    .hero-badge span {
+        font-size: 0.9rem;
+        color: white;
+        font-weight: 500;
+    }
+    .hero-badge small {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.6);
+    }
+
+    /* Cards */
+    .classic-card {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 12px;
         padding: 3rem;
         height: 100%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         position: relative;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
 
-    .modern-card::before {
+    .classic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .classic-card::after {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: var(--primary-gradient);
-        transition: all 0.4s ease;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: var(--tut-secondary);
+        border-radius: 12px 12px 0 0;
     }
 
-    .modern-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    .card-title {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--tut-primary);
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    .card-subtitle {
+        text-align: center;
+        color: var(--tut-muted);
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
     }
 
-    .modern-card:hover::before {
-        height: 8px;
-        background: var(--secondary-gradient);
+    /* Steps */
+    .step-list {
+        position: relative;
+        padding-bottom: 1rem;
+    }
+    .step-list::before {
+        content: '';
+        position: absolute;
+        top: 20px; bottom: 20px; left: 24px;
+        width: 2px;
+        background: rgba(197, 160, 89, 0.3);
     }
 
-    .tutorial-card::before {
-        background: var(--accent-gradient);
-    }
-
-    .tips-card::before {
-        background: var(--success-gradient);
-    }
-
-    /* Step Design */
-    .step-container {
+    .step-item {
         display: flex;
         align-items: flex-start;
         margin-bottom: 2.5rem;
         position: relative;
-        padding-left: 1rem;
+        z-index: 2;
+    }
+    .step-item:last-child {
+        margin-bottom: 0;
     }
 
-    .step-container::before {
-        content: '';
-        position: absolute;
-        left: 35px;
-        top: 80px;
-        width: 2px;
-        height: 60px;
-        background: linear-gradient(to bottom, var(--primary-gradient), transparent);
-        opacity: 0.3;
-    }
-
-    .step-container:last-child::before {
-        display: none;
-    }
-
-    .step-icon {
-        width: 70px;
-        height: 70px;
-        border-radius: 20px;
+    .step-icon-box {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border: 2px solid var(--tut-secondary);
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 1.5rem;
-        font-size: 1.5rem;
-        color: white;
-        position: relative;
         flex-shrink: 0;
+        margin-right: 1.5rem;
+        color: var(--tut-primary);
+        font-size: 1.25rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         transition: all 0.3s ease;
     }
-
-    .tutorial-step .step-icon {
-        background: var(--accent-gradient);
-        box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+    
+    .step-item:hover .step-icon-box {
+        background: var(--tut-secondary);
+        color: white;
+        transform: scale(1.1);
+        border-color: var(--tut-secondary);
     }
 
-    .tips-step .step-icon {
-        background: var(--success-gradient);
-        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+    .step-content {
+        padding-top: 0.3rem;
     }
 
     .step-content h5 {
+        font-family: var(--font-heading, 'Playfair Display', serif);
         font-size: 1.3rem;
+        color: var(--tut-primary);
+        margin-bottom: 0.5rem;
         font-weight: 700;
-        margin-bottom: 0.8rem;
-        color: var(--dark-color);
     }
 
     .step-content p {
-        color: #4a5568;
-        line-height: 1.6;
-        font-size: 1rem;
-    }
-
-    /* Card Headers */
-    .card-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .card-title {
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .tutorial-card .card-title {
-        background: var(--accent-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .tips-card .card-title {
-        background: var(--success-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .card-subtitle {
-        color: #6b7280;
-        font-size: 1.1rem;
-        font-weight: 400;
+        color: var(--tut-muted);
+        line-height: 1.7;
+        margin-bottom: 0;
+        font-size: 0.95rem;
     }
 
     /* Download Buttons */
     .download-section {
         margin-top: 3rem;
         padding-top: 2rem;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid rgba(0,0,0,0.05);
         text-align: center;
     }
 
     .download-btn {
-        background: var(--primary-gradient);
-        border: none;
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
-        color: white;
-        font-weight: 600;
-        font-size: 1.1rem;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-    }
-
-    .download-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        justify-content: center;
+        gap: 0.75rem;
+        background: var(--tut-primary);
         color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid var(--tut-primary);
     }
-
-    .tutorial-card .download-btn {
-        background: var(--accent-gradient);
-        box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
-    }
-
-    .tips-card .download-btn {
-        background: var(--success-gradient);
-        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+    
+    .download-btn:hover {
+        background: transparent;
+        color: var(--tut-primary);
     }
 
     /* Video Section */
     .video-section {
+        background: var(--tut-bg);
         padding: 6rem 0;
-        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-        position: relative;
-    }
-
-    .video-container {
-        max-width: 800px;
-        margin: 0 auto;
-        position: relative;
     }
 
     .video-wrapper {
         background: white;
-        border-radius: 25px;
-        padding: 2rem;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e5e7eb;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .video-wrapper::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: var(--warning-gradient);
-    }
-
-    .video-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        text-align: center;
-        margin-bottom: 2rem;
-        background: var(--warning-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        max-width: 900px;
+        margin: 0 auto;
     }
 
     .video-frame {
-        border-radius: 15px;
+        border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
     }
 
-    .video-frame:hover {
-        transform: scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    .section-title {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 2.5rem;
+        color: var(--tut-primary);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
     }
 
-    /* Additional Features Section */
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin-top: 4rem;
+    .section-subtitle {
+        text-align: center;
+        color: var(--tut-muted);
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
     }
 
+    /* Features Grid */
     .feature-item {
         background: white;
-        border-radius: 20px;
-        padding: 2rem;
+        padding: 2.5rem 2rem;
+        border-radius: 12px;
         text-align: center;
-        border: 1px solid #e5e7eb;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.04);
+        transition: transform 0.3s ease;
+        height: 100%;
     }
-
     .feature-item:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border-color: var(--primary-gradient);
+        border-color: rgba(197, 160, 89, 0.3);
     }
-
     .feature-icon {
-        width: 60px;
-        height: 60px;
-        background: var(--primary-gradient);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
+        width: 70px; 
+        height: 70px;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--tut-secondary);
+        border-radius: 50%;
+        display: flex; 
+        align-items: center; 
         justify-content: center;
-        margin: 0 auto 1rem;
-        color: white;
-        font-size: 1.5rem;
+        margin: 0 auto 1.5rem;
+        font-size: 1.8rem;
+    }
+    .feature-item h5 {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        color: var(--tut-primary);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    .feature-item p {
+        color: var(--tut-muted);
+        line-height: 1.6;
+        margin-bottom: 0;
+        font-size: 0.95rem;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.2rem;
-        }
-        
-        .modern-card {
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .step-container {
-            flex-direction: column;
-            text-align: center;
-            padding-left: 0;
-        }
-        
-        .step-container::before {
-            display: none;
-        }
-        
-        .step-icon {
-            margin: 0 auto 1rem;
-        }
-        
-        .video-wrapper {
-            padding: 1rem;
-        }
-    }
-
-    /* Floating Animation */
-    @keyframes float-gentle {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-
-    .floating {
-        animation: float-gentle 6s ease-in-out infinite;
-    }
-
-    /* Pulse Effect for Icons */
-    @keyframes pulse {
-        0%, 100% { box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3); }
-        50% { box-shadow: 0 10px 25px rgba(79, 172, 254, 0.6); }
-    }
-
-    .step-icon {
-        animation: pulse 3s ease-in-out infinite;
-    }
-
-    .tips-step .step-icon {
-        animation: pulse 3s ease-in-out infinite 0.5s;
+        .hero-title { font-size: 2.5rem; }
+        .classic-card { padding: 2rem; }
+        .step-list::before { left: 20px; }
+        .step-icon-box { width: 40px; height: 40px; font-size: 1.1rem; margin-right: 1rem; }
+        .step-content h5 { font-size: 1.1rem; }
     }
 </style>
 {% endblock %}
@@ -392,36 +313,25 @@
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title">Master AI Cry Detection</h1>
-            <p class="lead opacity-90 mb-4" style="font-size: 1.3rem;">
-                Complete guide to using our advanced machine learning system for understanding your baby's needs
+            <p class="hero-subtitle">
+                A complete, step-by-step guide to using our advanced machine learning system to understand your baby's needs quickly and accurately.
             </p>
-            <div class="row mt-5">
-                <div class="col-md-4">
-                    <div class="text-center mb-3">
-                        <div class="d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-bottom: 1rem;">
-                            <i class="bi bi-play-circle" style="font-size: 1.5rem;"></i>
-                        </div>
-                        <h5>Video Tutorial</h5>
-                        <p class="opacity-75 mb-0">Watch and learn</p>
-                    </div>
+            
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <div class="hero-badge">
+                    <i class="bi bi-play-circle"></i>
+                    <span>Video Tutorial</span>
+                    <small>Watch & Learn</small>
                 </div>
-                <div class="col-md-4">
-                    <div class="text-center mb-3">
-                        <div class="d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-bottom: 1rem;">
-                            <i class="bi bi-book" style="font-size: 1.5rem;"></i>
-                        </div>
-                        <h5>Step-by-Step</h5>
-                        <p class="opacity-75 mb-0">Detailed instructions</p>
-                    </div>
+                <div class="hero-badge">
+                    <i class="bi bi-list-check"></i>
+                    <span>Step-by-Step</span>
+                    <small>Detailed Guide</small>
                 </div>
-                <div class="col-md-4">
-                    <div class="text-center mb-3">
-                        <div class="d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-bottom: 1rem;">
-                            <i class="bi bi-lightbulb" style="font-size: 1.5rem;"></i>
-                        </div>
-                        <h5>Expert Tips</h5>
-                        <p class="opacity-75 mb-0">Maximize accuracy</p>
-                    </div>
+                <div class="hero-badge">
+                    <i class="bi bi-lightbulb"></i>
+                    <span>Expert Tips</span>
+                    <small>Maximize Accuracy</small>
                 </div>
             </div>
         </div>
@@ -429,58 +339,44 @@
 </section>
 
 <!-- Main Tutorial Section -->
-<section class="py-5" style="margin-top: -50px; position: relative; z-index: 2;">
+<section class="py-5" style="margin-top: -3rem; position: relative; z-index: 2;">
     <div class="container">
         <div class="row g-4">
             <!-- Tutorial Card -->
             <div class="col-lg-6">
-                <div class="modern-card tutorial-card floating">
-                    <div class="card-header">
+                <div class="classic-card">
+                    <div class="card-header border-0 bg-transparent p-0">
                         <h2 class="card-title">How to Use</h2>
                         <p class="card-subtitle">Follow these simple steps to analyze your baby's cry</p>
                     </div>
 
-                    <div class="tutorial-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-gear-wide-connected"></i>
-                            </div>
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-gear"></i></div>
                             <div class="step-content">
                                 <h5>1. Prepare Your Environment</h5>
                                 <p>Find a quiet space and ensure your recording device is ready. Good audio quality leads to better results from our AI system.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tutorial-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-cloud-upload"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-cloud-upload"></i></div>
                             <div class="step-content">
                                 <h5>2. Upload Audio File</h5>
                                 <p>Navigate to the detection page and upload your baby's cry recording. Our system supports multiple audio formats for your convenience.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tutorial-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-cpu"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-cpu"></i></div>
                             <div class="step-content">
                                 <h5>3. AI Analysis Process</h5>
                                 <p>Our advanced SVM model with 203-feature extraction analyzes your audio sample using cutting-edge machine learning algorithms.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tutorial-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-check-circle-fill"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-check2-circle"></i></div>
                             <div class="step-content">
                                 <h5>4. Get Results & Guidance</h5>
                                 <p>View the detailed analysis results with care recommendations tailored to your baby's identified need category.</p>
@@ -490,7 +386,7 @@
 
                     <div class="download-section">
                         <a href="{% static 'files/tutorial/tutorial_pdf.pdf' %}" class="download-btn" download>
-                            <i class="bi bi-download"></i>
+                            <i class="bi bi-file-earmark-pdf"></i>
                             Download Complete Tutorial
                         </a>
                     </div>
@@ -499,53 +395,39 @@
 
             <!-- Tips Card -->
             <div class="col-lg-6">
-                <div class="modern-card tips-card floating" style="animation-delay: 0.2s;">
-                    <div class="card-header">
+                <div class="classic-card">
+                    <div class="card-header border-0 bg-transparent p-0">
                         <h2 class="card-title">Pro Tips</h2>
                         <p class="card-subtitle">Maximize accuracy with these expert recommendations</p>
                     </div>
 
-                    <div class="tips-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-soundwave"></i>
-                            </div>
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-soundwave"></i></div>
                             <div class="step-content">
                                 <h5>Optimal Recording Quality</h5>
                                 <p>Record in a quiet environment to minimize background noise. Clear audio improves our 99.48% accuracy rate even further.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tips-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-file-earmark-music"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-file-earmark-music"></i></div>
                             <div class="step-content">
                                 <h5>Best Audio Formats</h5>
                                 <p>Use WAV format for highest accuracy (lossless), followed by MP3. Avoid heavily compressed formats for better results.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tips-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-stopwatch"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-stopwatch"></i></div>
                             <div class="step-content">
                                 <h5>Ideal Recording Duration</h5>
                                 <p>Capture 5-15 seconds of continuous crying for optimal analysis. This provides enough data for our feature extraction algorithms.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tips-step">
-                        <div class="step-container">
-                            <div class="step-icon">
-                                <i class="bi bi-mic-fill"></i>
-                            </div>
+                        <div class="step-item">
+                            <div class="step-icon-box"><i class="bi bi-mic"></i></div>
                             <div class="step-content">
                                 <h5>Microphone Best Practices</h5>
                                 <p>Position your device 1-2 feet from the baby. Ensure microphone permissions are enabled and volume levels are adequate.</p>
@@ -555,7 +437,7 @@
 
                     <div class="download-section">
                         <a href="{% static 'files/tutorial/tips_pdf.pdf' %}" class="download-btn" download>
-                            <i class="bi bi-download"></i>
+                            <i class="bi bi-file-earmark-pdf"></i>
                             Download Expert Tips Guide
                         </a>
                     </div>
@@ -568,78 +450,73 @@
 <!-- Video Tutorial Section -->
 <section class="video-section">
     <div class="container">
-        <div class="video-container">
-            <div class="video-wrapper">
-                <h2 class="video-title">Watch Our Quick Tutorial</h2>
-                <p class="text-center text-muted mb-4" style="font-size: 1.1rem;">
-                    See the AI cry detection system in action with this comprehensive walkthrough
+        <h2 class="section-title">Watch Our Quick Tutorial</h2>
+        <p class="section-subtitle">
+            See the AI cry detection system in action with this comprehensive walkthrough.
+        </p>
+        
+        <div class="video-wrapper">
+            <div class="video-frame">
+                <div class="ratio ratio-16x9">
+                    <iframe 
+                        src="https://www.youtube.com/embed/f7_7rubm_iM" 
+                        title="AI Cry Detection Tutorial" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="text-center mt-4 pb-2">
+                <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                    <i class="bi bi-clock me-1 text-secondary"></i> 3 minutes
+                    <span class="mx-3 text-light">|</span>
+                    <i class="bi bi-eye me-1 text-secondary"></i> Comprehensive walkthrough
+                    <span class="mx-3 text-light">|</span>
+                    <i class="bi bi-shield-check me-1 text-secondary"></i> Privacy-focused demo
                 </p>
-                <div class="video-frame">
-                    <div class="ratio ratio-16x9">
-                        <iframe 
-                            src="https://youtu.be/f7_7rubm_iM" 
-                            title="AI Cry Detection Tutorial" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin" 
-                            allowfullscreen
-                            style="border-radius: 10px;">
-                        </iframe>
-                    </div>
-                </div>
-                <div class="text-center mt-4">
-                    <p class="text-muted">
-                        <i class="bi bi-clock me-1"></i>Duration: 3 minutes
-                        <span class="mx-3">|</span>
-                        <i class="bi bi-eye me-1"></i>Comprehensive walkthrough
-                        <span class="mx-3">|</span>
-                        <i class="bi bi-shield-check me-1"></i>Privacy-focused demo
-                    </p>
-                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Additional Features -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold" style="font-size: 2.5rem; color: var(--dark-color);">
-                Why Our Tutorial Works
-            </h2>
-            <p class="lead text-muted">
-                Designed based on user feedback and scientific research methodology
-            </p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="bi bi-mortarboard"></i>
+<section class="py-5" style="background-color: white;">
+    <div class="container my-4">
+        <h2 class="section-title">Why Our Tutorial Works</h2>
+        <p class="section-subtitle">
+            Designed based on user feedback and scientific research methodology
+        </p>
+        
+        <div class="row g-4 mt-2">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="bi bi-mortarboard"></i></div>
+                    <h5>Research-Based</h5>
+                    <p>Tutorial based on peer-reviewed machine learning research and real user testing scenarios.</p>
                 </div>
-                <h5 class="fw-bold mb-2">Research-Based</h5>
-                <p class="text-muted mb-0">Tutorial based on peer-reviewed machine learning research and real user testing scenarios.</p>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="bi bi-speedometer2"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="bi bi-speedometer2"></i></div>
+                    <h5>Quick Learning</h5>
+                    <p>Get up and running in under 5 minutes with our streamlined, parent-friendly approach.</p>
                 </div>
-                <h5 class="fw-bold mb-2">Quick Learning</h5>
-                <p class="text-muted mb-0">Get up and running in under 5 minutes with our streamlined, parent-friendly approach.</p>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="bi bi-phone"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="bi bi-phone"></i></div>
+                    <h5>Device Agnostic</h5>
+                    <p>Works on any device with internet access - smartphone, tablet, laptop, or desktop computer.</p>
                 </div>
-                <h5 class="fw-bold mb-2">Device Agnostic</h5>
-                <p class="text-muted mb-0">Works on any device with internet access - smartphone, tablet, laptop, or desktop computer.</p>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="bi bi-arrow-clockwise"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="bi bi-arrow-clockwise"></i></div>
+                    <h5>Always Updated</h5>
+                    <p>Tutorial content updated regularly based on user feedback and system improvements.</p>
                 </div>
-                <h5 class="fw-bold mb-2">Always Updated</h5>
-                <p class="text-muted mb-0">Tutorial content updated regularly based on user feedback and system improvements.</p>
             </div>
         </div>
     </div>

@@ -818,12 +818,12 @@
                 <h2 class="fw-bold mb-5 text-center" style="font-size: 2.5rem;">
                     Frequently Asked Questions
                 </h2>
-                <div class="faq-list">
+                <div class="faq-list" id="faqAccordion">
                     <div class="faq-item">
                         <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">
                             How accurate is the cry detection system?
                         </button>
-                        <div id="faq1" class="collapse" aria-labelledby="faq1">
+                        <div id="faq1" class="collapse" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
                             <div class="faq-answer">
                                 Our system achieves 99.48% accuracy, the highest ever reported in scientific literature for infant cry classification. This was validated through rigorous testing on the Donate a Cry Corpus dataset.
                             </div>
@@ -833,7 +833,7 @@
                         <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                             What cry types can the system identify?
                         </button>
-                        <div id="faq2" class="collapse">
+                        <div id="faq2" class="collapse" data-bs-parent="#faqAccordion">
                             <div class="faq-answer">
                                 Our AI can distinguish between five main cry causes: hunger, discomfort, tiredness, belly pain, and the need for burping. Each category is identified through unique acoustic patterns.
                             </div>
@@ -843,7 +843,7 @@
                         <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
                             Is my baby's audio data stored or shared?
                         </button>
-                        <div id="faq3" class="collapse">
+                        <div id="faq3" class="collapse" data-bs-parent="#faqAccordion">
                             <div class="faq-answer">
                                 Absolutely not. All audio processing happens in real-time and files are never stored on our servers. Your privacy and your baby's data security are our top priorities.
                             </div>
@@ -853,7 +853,7 @@
                         <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
                             What audio formats are supported?
                         </button>
-                        <div id="faq4" class="collapse">
+                        <div id="faq4" class="collapse" data-bs-parent="#faqAccordion">
                             <div class="faq-answer">
                                 We support all major audio formats including MP3, WAV, AAC, OGG, and more. WAV format provides the best accuracy due to its lossless compression.
                             </div>
@@ -863,7 +863,7 @@
                         <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
                             How was this system developed and validated?
                         </button>
-                        <div id="faq5" class="collapse">
+                        <div id="faq5" class="collapse" data-bs-parent="#faqAccordion">
                             <div class="faq-answer">
                                 Our system was developed using advanced machine learning techniques, extracting 203 audio features from each cry sample. We tested 10 different algorithms and achieved superior results with Support Vector Machines using RBF kernels.
                             </div>
@@ -877,28 +877,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // FAQ Accordion handling
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            const target = this.getAttribute('data-bs-target');
-            const collapse = document.querySelector(target);
-            
-            // Close all other accordions
-            document.querySelectorAll('.collapse.show').forEach(item => {
-                if (item !== collapse) {
-                    item.classList.remove('show');
-                    const button = document.querySelector(`[data-bs-target="#${item.id}"]`);
-                    if (button) button.setAttribute('aria-expanded', 'false');
-                }
-            });
 
-            // Toggle current accordion
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isExpanded);
-            collapse.classList.toggle('show');
-        });
-    });
 
     // Trust counter animation
     const target = parseInt('{{ trust_count|default:0 }}');

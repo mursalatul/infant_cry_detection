@@ -1,181 +1,269 @@
 {% extends "base.html" %}
 
-{% block title %}title will be here{% endblock %}
+{% block title %}Analysis Result - Infant Cry Detection{% endblock %}
 {% load static %}
 {% load tz %}
 
 <!-- custom style start -->
 {% block custom_styles %}
-<!-- style for result box start-->
 <style>
     :root {
-        --primary-color: #1a365d;
-        --secondary-color: #c5a059;
-        --accent-color: #e53e3e;
-        --dark-color: #2d3748;
-        --success-color: #38a169;
-        --danger-color: #e53e3e;
+        --res-primary: var(--primary-color, #1a365d);
+        --res-secondary: var(--secondary-color, #c5a059);
+        --res-bg: #f8fafc;
+        --res-text: #2d3748;
+        --res-muted: #718096;
+        --res-success: #38a169;
+        --res-danger: #e53e3e;
         --fade-in: fadeIn 1s ease;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(30px); }
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    body {
+        background-color: var(--res-bg);
+    }
+
     .results-section {
-        background: linear-gradient(120deg, #fcfdfd 0%, #edf2f7 100%);
+        background: linear-gradient(135deg, var(--res-bg) 0%, #e2e8f0 100%);
         padding: 5rem 0;
         min-height: calc(100vh - 150px);
         display: flex;
         align-items: center;
-    }
-    .results-card {
-        border: none;
-        border-radius: 22px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-        transition: all 0.4s cubic-bezier(.4,2,.3,1);
-        overflow: hidden;
-        background: rgba(255,255,255,0.97);
-        backdrop-filter: blur(12px);
-        animation: var(--fade-in);
-    }
-    .results-card:hover {
-        transform: translateY(-7px) scale(1.01);
-        box-shadow: 0 18px 48px rgba(0,0,0,0.13);
-    }
-    .results-card .card-body {
-        padding: 3.5rem 2.5rem 2.5rem 2.5rem;
-    }
-    .results-heading {
         position: relative;
-        margin-bottom: 2.5rem;
-        color: var(--dark-color);
-        font-size: 2.3rem;
-        font-weight: 800;
-        letter-spacing: 0.5px;
     }
-    .results-heading:after {
+
+    .results-section::before {
         content: '';
         position: absolute;
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-        bottom: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 2px;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='rgba(26, 54, 93, 0.05)'/%3E%3C/svg%3E");
+        z-index: 0;
     }
-    .animated-icon {
-        width: 70px;
-        height: 70px;
-        margin-bottom: 1.2rem;
+
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .results-card {
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+        transition: var(--transition);
+        overflow: hidden;
+        background: white;
+        animation: var(--fade-in);
+        position: relative;
+    }
+    
+    .results-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 6px;
+        background: var(--res-secondary);
+    }
+
+    .results-card .card-body {
+        padding: 4rem 3rem;
+    }
+
+    .results-heading {
+        margin-bottom: 2rem;
+        color: var(--res-primary);
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 2.5rem;
+        font-weight: 700;
+        position: relative;
         display: inline-block;
-        animation: pulse 1.5s infinite alternate;
     }
-    @keyframes pulse {
-        0% { filter: drop-shadow(0 0 0 var(--primary-color)); }
-        100% { filter: drop-shadow(0 0 12px var(--secondary-color)); }
+
+    .avatar-wrapper {
+        width: 120px;
+        height: 120px;
+        background: rgba(197, 160, 89, 0.05);
+        border: 2px dashed rgba(197, 160, 89, 0.4);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+        animation: pulseAvatar 3s infinite alternate;
     }
+
+    @keyframes pulseAvatar {
+        0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.2); }
+        100% { box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
+    }
+
     .prediction-result {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        margin: 2rem 0 1.2rem 0;
-        padding: 1.2rem 1rem;
-        background: linear-gradient(120deg, rgba(58, 123, 213, 0.10) 0%, rgba(58, 123, 213, 0.04) 100%);
-        border-radius: 15px;
-        border-left: 6px solid var(--primary-color);
-        transition: all 0.3s ease;
+        font-size: 1.25rem;
+        color: var(--res-text);
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,0.03);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 1rem;
+        max-width: 500px;
     }
-    .badge-reason {
-        font-size: 1.1rem;
-        font-weight: 700;
-        border-radius: 20px;
-        padding: 0.5em 1.2em;
-        margin-left: 0.7em;
-        color: #fff;
-        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
-        letter-spacing: 0.03em;
-        border: none;
-        display: inline-block;
-        vertical-align: middle;
-        animation: fadeIn 1.2s;
-    }
-    .btn-try-again {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border: none;
-        border-radius: 12px;
-        padding: 1rem 2.5rem;
-        font-weight: 600;
-        margin-top: 2rem;
-        transition: all 0.4s cubic-bezier(.4,2,.3,1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.11);
-        color: #fff;
-    }
-    .btn-try-again:hover {
-        transform: translateY(-3px) scale(1.03);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
-        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    }
-    .helpful-resources {
-        margin-top: 3rem;
-    }
-    .resource-card {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        transition: all 0.3s cubic-bezier(.4,2,.3,1);
-    }
-    .resource-card:hover {
-        transform: translateY(-5px) scale(1.01);
-    }
-    .resource-card .card {
-        transition: all 0.3s cubic-bezier(.4,2,.3,1);
-        border-radius: 15px;
-        background: linear-gradient(120deg, #ffffff 0%, #f8f9fa 100%);
-    }
-    .resource-card:hover .card {
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.13);
-    }
-    .resource-card .bi {
+
+    .prediction-result i {
+        color: var(--res-secondary);
         font-size: 1.5rem;
-        display: block;
     }
-    .resource-card h6 {
-        font-weight: 600;
-        margin: 0.5rem 0;
-        color: var(--dark-color);
+
+    .badge-reason {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--res-primary);
+        letter-spacing: 0.5px;
+        animation: fadeIn 1.2s;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--res-secondary);
+        padding-bottom: 2px;
     }
+
     .analysis-time {
-        color: var(--dark-color);
-        opacity: 0.7;
-        font-size: 0.98rem;
-        margin: 1.5rem 0;
-        padding: 0.75rem;
-        border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.03);
+        color: var(--res-muted);
+        font-size: 0.95rem;
+        margin: 1.5rem 0 2.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
     }
+
+    .recommendations-box {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid var(--res-secondary);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+    }
+    
+    .recommendations-box h4 {
+        color: var(--res-primary);
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-weight: 700;
+    }
+
+    .recommendations-box ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    .recommendations-box ul li {
+        position: relative;
+        padding-left: 1.8rem;
+        margin-bottom: 0.8rem;
+        color: var(--res-text);
+    }
+
+    .recommendations-box ul li::before {
+        content: '\F26A'; /* Bootstrap icon bi-check-circle */
+        font-family: 'bootstrap-icons';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--res-secondary);
+        font-size: 1.1rem;
+    }
+
+    .helpful-resources {
+        margin-top: 4rem;
+    }
+
+    .helpful-resources h4 {
+        color: var(--res-primary);
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    .resource-card {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
+    }
+
+    .resource-card .card {
+        transition: var(--transition);
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,0.05);
+        background: white;
+        height: 100%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+
+    .resource-card:hover .card {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+        border-color: rgba(197, 160, 89, 0.3);
+    }
+
+    .resource-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--res-secondary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .resource-card h6 {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-weight: 700;
+        color: var(--res-primary);
+        font-size: 1.1rem;
+    }
+
+    .btn-try-again {
+        background: var(--res-primary);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 2.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(26, 54, 93, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-try-again:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(26, 54, 93, 0.25);
+        background: var(--res-secondary);
+        color: white;
+    }
+
     .fade-in {
         animation: fadeIn 1.2s;
     }
+
     @media (max-width: 768px) {
         .results-card .card-body {
-            padding: 2rem 0.7rem 1.5rem 0.7rem;
-        }
-        .results-section {
-            padding: 2.5rem 0 1.5rem 0;
+            padding: 2.5rem 1.5rem;
         }
     }
 </style>
-<!-- style for result box end-->
 {% endblock %}
 <!-- custom style end -->
 
@@ -184,15 +272,15 @@
     <section class="results-section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8">
+                <div class="col-lg-9 col-xl-8">
                     <div class="card results-card">
-
                         <div class="card-body text-center">
+                            
                             <!-- Animated Baby Mood Avatar -->
-                            <div class="fade-in mb-3" style="display:inline-block;">
+                            <div class="avatar-wrapper fade-in">
                                 {% if prediction == 'hungry' %}
                                 <!-- Sad face, mouth open -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#fffbe7" stroke="#fbb034" stroke-width="4"/>
                                     <ellipse cx="45" cy="60" rx="15" ry="10" fill="#fff"/>
                                     <ellipse cx="45" cy="62" rx="8" ry="5" fill="#fbb034"/>
@@ -204,7 +292,7 @@
                                 </svg>
                                 {% elif prediction == 'tired' %}
                                 <!-- Sleepy face -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#e6f7ff" stroke="#3a7bd5" stroke-width="4"/>
                                     <ellipse cx="32" cy="48" rx="5" ry="2" fill="#222831"/>
                                     <ellipse cx="58" cy="48" rx="5" ry="2" fill="#222831"/>
@@ -214,7 +302,7 @@
                                 </svg>
                                 {% elif prediction == 'belly_pain' %}
                                 <!-- Crying face -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#fff0f3" stroke="#f87171" stroke-width="4"/>
                                     <ellipse cx="32" cy="44" rx="5" ry="7" fill="#222831"/>
                                     <ellipse cx="58" cy="44" rx="5" ry="7" fill="#222831"/>
@@ -231,7 +319,7 @@
                                 </svg>
                                 {% elif prediction == 'burping' %}
                                 <!-- Surprised face -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#eafff7" stroke="#00d2ff" stroke-width="4"/>
                                     <ellipse cx="32" cy="44" rx="5" ry="7" fill="#222831"/>
                                     <ellipse cx="58" cy="44" rx="5" ry="7" fill="#222831"/>
@@ -242,7 +330,7 @@
                                 </svg>
                                 {% elif prediction == 'discomfort' %}
                                 <!-- Frown face -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#f7f7f7" stroke="#222831" stroke-width="4"/>
                                     <ellipse cx="32" cy="44" rx="5" ry="7" fill="#222831"/>
                                     <ellipse cx="58" cy="44" rx="5" ry="7" fill="#222831"/>
@@ -252,7 +340,7 @@
                                 </svg>
                                 {% else %}
                                 <!-- Default happy face -->
-                                <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="70" height="70" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="45" cy="45" r="40" fill="#eafff7" stroke="#4ade80" stroke-width="4"/>
                                     <ellipse cx="32" cy="44" rx="5" ry="7" fill="#222831"/>
                                     <ellipse cx="58" cy="44" rx="5" ry="7" fill="#222831"/>
@@ -262,184 +350,164 @@
                                 </svg>
                                 {% endif %}
                             </div>
-                            <h2 class="results-heading fw-bold">Detection Result</h2>
-                            <div class="prediction-result mb-4">
-                                <i class="bi bi-soundwave me-2"></i>
-                                <span><strong>Detected Cry Reason:</strong></span>
-                                <span class="badge-reason">
-                                    {{ prediction|title }}
-                                </span>
+
+                            <h2 class="results-heading fade-in">Analysis Complete</h2>
+                            
+                            <div class="prediction-result fade-in">
+                                <i class="bi bi-robot"></i>
+                                <span>Detected Reason:</span>
+                                <span class="badge-reason">{{ prediction|title }}</span>
                             </div>
-                            <!-- Animated checkmark for confirmation -->
-                            <div class="fade-in mb-2" style="display:inline-block;">
-                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="19" cy="19" r="18" stroke="var(--success-color)" stroke-width="2" fill="none"/>
-                                    <path d="M11 20.5L17 26L27 14" stroke="var(--success-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
+
                             <!-- Analysis Time -->
-                            <div class="analysis-time mb-4 fade-in">
-                                <i class="bi bi-clock me-2"></i>
-                                Analysis performed: {% now "F j, Y, g:i a" %}
+                            <div class="analysis-time fade-in">
+                                <i class="bi bi-clock"></i>
+                                Performed on: {% now "F j, Y, g:i a" %}
                             </div>
 
                             <!-- Recommendations Section -->
-                            <div class="recommendations-box p-4 mb-4 bg-light rounded fade-in">
-                                <h4 class="mb-3"><i class="bi bi-lightbulb me-2 text-warning"></i>Recommended Actions</h4>
+                            <div class="recommendations-box p-4 mb-5 fade-in text-start">
+                                <h4 class="mb-4"><i class="bi bi-magic me-2"></i>Recommended Actions</h4>
                                 {% if prediction == 'belly_pain' %}
-                                    <ul class="text-start">
+                                    <ul>
                                         <li>Gently massage your baby's tummy in a clockwise direction</li>
-                                        <li>Try the "bicycle legs" exercise</li>
-                                        <li>Keep baby upright after feeding</li>
-                                        <li>Consider using gas drops (consult your pediatrician)</li>
+                                        <li>Try the "bicycle legs" exercise to help relieve gas</li>
+                                        <li>Keep baby upright for 15-20 minutes after feeding</li>
+                                        <li>Consider consulting your pediatrician if symptoms persist</li>
                                     </ul>
                                 {% elif prediction == 'burping' %}
-                                    <ul class="text-start">
-                                        <li>Hold baby upright against your shoulder</li>
-                                        <li>Gently pat or rub baby's back</li>
-                                        <li>Try different burping positions</li>
-                                        <li>Take breaks during feeding to burp</li>
+                                    <ul>
+                                        <li>Hold your baby upright against your shoulder securely</li>
+                                        <li>Gently pat or rub your baby's back to release air</li>
+                                        <li>Try sitting them on your lap while supporting their chest and head</li>
+                                        <li>Take frequent breaks during feeding to burp them</li>
                                     </ul>
                                 {% elif prediction == 'discomfort' %}
-                                    <ul class="text-start">
-                                        <li>Check diaper and change if needed</li>
-                                        <li>Ensure room temperature is comfortable</li>
-                                        <li>Check for tight clothing</li>
-                                        <li>Look for any signs of rash or irritation</li>
+                                    <ul>
+                                        <li>Check their diaper and change it immediately if needed</li>
+                                        <li>Ensure the room temperature is comfortable (not too hot or cold)</li>
+                                        <li>Check for tight clothing, tags, or wrapped hairs on fingers/toes</li>
+                                        <li>Look for any signs of skin rash or mild irritation</li>
                                     </ul>
                                 {% elif prediction == 'hungry' %}
-                                    <ul class="text-start">
-                                        <li>Feed your baby immediately</li>
-                                        <li>Check if baby is getting enough milk/formula</li>
-                                        <li>Consider cluster feeding if applicable</li>
-                                        <li>Monitor feeding schedule</li>
+                                    <ul>
+                                        <li>Offer breast milk or formula immediately</li>
+                                        <li>Check if your baby is getting enough milk during regular feeds</li>
+                                        <li>Consider cluster feeding if your baby is going through a growth spurt</li>
+                                        <li>Monitor their overall daily feeding schedule</li>
                                     </ul>
                                 {% elif prediction == 'tired' %}
-                                    <ul class="text-start">
-                                        <li>Create a calm environment</li>
-                                        <li>Start bedtime routine</li>
-                                        <li>Dim lights and reduce noise</li>
-                                        <li>Consider swaddling if age-appropriate</li>
+                                    <ul>
+                                        <li>Create a calm, dark environment by dimming the lights</li>
+                                        <li>Start a soothing bedtime or nap-time routine</li>
+                                        <li>Reduce background noise or use a white noise machine</li>
+                                        <li>Consider swaddling securely if it is age-appropriate</li>
+                                    </ul>
+                                {% else %}
+                                    <ul>
+                                        <li>Comfort your baby with gentle rocking or singing</li>
+                                        <li>Check their basic needs (diaper, temperature, hunger)</li>
+                                        <li>If crying persists without an obvious cause, consult a pediatrician</li>
                                     </ul>
                                 {% endif %}
                             </div>
 
                             <!-- Helpful Resources -->
-                            <div class="helpful-resources mb-4 fade-in">
-                                <h4 class="mb-4 text-center"><i class="bi bi-link-45deg me-2 text-primary"></i>Helpful Resources</h4>
-                                <div class="row g-3 justify-content-center">
+                            <div class="helpful-resources fade-in">
+                                <h4>Helpful Reading Resources</h4>
+                                <div class="row g-4 justify-content-center text-start">
                                     {% if prediction == 'belly_pain' %}
                                     <div class="col-md-6">
-                                        <a href="https://www.healthline.com/health/parenting/baby-gas-relief" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-bookmark-heart text-primary mb-2"></i>
-                                                    <h6>Baby Gas Relief Guide</h6>
-                                                    <p class="small text-muted mb-0">Learn effective techniques for relieving gas pain</p>
-                                                </div>
+                                        <a href="https://www.healthline.com/health/parenting/baby-gas-relief" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-capsule"></i></div>
+                                                <h6>Baby Gas Relief Guide</h6>
+                                                <p class="small text-muted mb-0">Learn effective techniques for relieving gas pain</p>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="https://www.whattoexpect.com/first-year/colic" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-journal-medical text-primary mb-2"></i>
-                                                    <h6>Understanding Colic</h6>
-                                                    <p class="small text-muted mb-0">Expert advice on managing colic symptoms</p>
-                                                </div>
+                                        <a href="https://www.whattoexpect.com/first-year/colic" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-journal-medical"></i></div>
+                                                <h6>Understanding Colic</h6>
+                                                <p class="small text-muted mb-0">Expert advice on managing colic symptoms</p>
                                             </div>
                                         </a>
                                     </div>
                                     {% elif prediction == 'burping' %}
                                     <div class="col-md-6">
-                                        <a href="https://www.parents.com/baby/care/gas/best-burping-positions/" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-heart-pulse text-primary mb-2"></i>
-                                                    <h6>Burping Techniques</h6>
-                                                    <p class="small text-muted mb-0">Effective positions and methods for burping</p>
-                                                </div>
+                                        <a href="https://www.parents.com/baby/care/gas/best-burping-positions/" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-person-arms-up"></i></div>
+                                                <h6>Burping Techniques</h6>
+                                                <p class="small text-muted mb-0">Effective positions and methods for burping</p>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="https://www.happiestbaby.com/blogs/baby/burping-baby" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-clipboard2-pulse text-primary mb-2"></i>
-                                                    <h6>When to Burp</h6>
-                                                    <p class="small text-muted mb-0">Learn when and how often to burp your baby</p>
-                                                </div>
+                                        <a href="https://www.happiestbaby.com/blogs/baby/burping-baby" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-clock-history"></i></div>
+                                                <h6>When to Burp</h6>
+                                                <p class="small text-muted mb-0">Learn when and how often to burp your baby</p>
                                             </div>
                                         </a>
                                     </div>
                                     {% elif prediction == 'hungry' %}
                                     <div class="col-md-6">
-                                        <a href="https://www.cdc.gov/nutrition/infantandtoddlernutrition/feeding-patterns.html" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-clock-history text-primary mb-2"></i>
-                                                    <h6>Feeding Patterns</h6>
-                                                    <p class="small text-muted mb-0">CDC guidelines on baby feeding schedules</p>
-                                                </div>
+                                        <a href="https://www.cdc.gov/nutrition/infantandtoddlernutrition/feeding-patterns.html" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-cup-straw"></i></div>
+                                                <h6>Feeding Patterns</h6>
+                                                <p class="small text-muted mb-0">CDC guidelines on baby feeding schedules</p>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="https://www.who.int/health-topics/breastfeeding" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-droplet-half text-primary mb-2"></i>
-                                                    <h6>Feeding Guidelines</h6>
-                                                    <p class="small text-muted mb-0">WHO recommendations on infant feeding</p>
-                                                </div>
+                                        <a href="https://www.who.int/health-topics/breastfeeding" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-droplet"></i></div>
+                                                <h6>Feeding Guidelines</h6>
+                                                <p class="small text-muted mb-0">WHO recommendations on infant feeding</p>
                                             </div>
                                         </a>
                                     </div>
                                     {% elif prediction == 'tired' %}
                                     <div class="col-md-6">
-                                        <a href="https://www.sleepfoundation.org/baby-sleep" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-moon-stars text-primary mb-2"></i>
-                                                    <h6>Sleep Patterns</h6>
-                                                    <p class="small text-muted mb-0">Understanding baby sleep cycles</p>
-                                                </div>
+                                        <a href="https://www.sleepfoundation.org/baby-sleep" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-moon-stars"></i></div>
+                                                <h6>Sleep Patterns</h6>
+                                                <p class="small text-muted mb-0">Understanding baby sleep cycles</p>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="https://www.happiestbaby.com/blogs/baby/baby-sleep-schedule" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-alarm text-primary mb-2"></i>
-                                                    <h6>Sleep Schedule</h6>
-                                                    <p class="small text-muted mb-0">Creating the perfect sleep routine</p>
-                                                </div>
+                                        <a href="https://www.happiestbaby.com/blogs/baby/baby-sleep-schedule" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-alarm"></i></div>
+                                                <h6>Sleep Schedule</h6>
+                                                <p class="small text-muted mb-0">Creating the perfect sleep routine</p>
                                             </div>
                                         </a>
                                     </div>
                                     {% elif prediction == 'discomfort' %}
                                     <div class="col-md-6">
-                                        <a href="https://www.healthychildren.org/English/ages-stages/baby/diapers-clothing/Pages/default.aspx" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-shield-check text-primary mb-2"></i>
-                                                    <h6>Baby Comfort Guide</h6>
-                                                    <p class="small text-muted mb-0">Tips for keeping your baby comfortable</p>
-                                                </div>
+                                        <a href="https://www.healthychildren.org/English/ages-stages/baby/diapers-clothing/Pages/default.aspx" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-shield-check"></i></div>
+                                                <h6>Baby Comfort Guide</h6>
+                                                <p class="small text-muted mb-0">Tips for keeping your baby comfortable</p>
                                             </div>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/diaper-rash/art-20050922" class="resource-card">
-                                            <div class="card h-100 border-0 shadow-sm">
-                                                <div class="card-body">
-                                                    <i class="bi bi-bandaid text-primary mb-2"></i>
-                                                    <h6>Common Discomforts</h6>
-                                                    <p class="small text-muted mb-0">Managing common baby discomforts</p>
-                                                </div>
+                                        <a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/diaper-rash/art-20050922" class="resource-card" target="_blank">
+                                            <div class="card p-4">
+                                                <div class="resource-icon"><i class="bi bi-bandaid"></i></div>
+                                                <h6>Common Discomforts</h6>
+                                                <p class="small text-muted mb-0">Managing common baby discomforts</p>
                                             </div>
                                         </a>
                                     </div>
@@ -448,11 +516,12 @@
                             </div>
 
                             <!-- Try Again Button -->
-                            <div class="d-grid gap-2 col-md-6 mx-auto mt-4 fade-in">
-                                <a href="{% url 'cry_detection_view' %}" class="btn btn-try-again btn-lg">
-                                    <i class="bi bi-arrow-repeat me-2"></i>Try Another Analysis
+                            <div class="mt-5 fade-in">
+                                <a href="{% url 'cry_detection_view' %}" class="btn-try-again">
+                                    <i class="bi bi-arrow-repeat me-2 fs-5"></i> Perform Another Analysis
                                 </a>
                             </div>
+
                         </div>
                     </div>
                 </div>

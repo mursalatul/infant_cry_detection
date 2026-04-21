@@ -1,22 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}Discomfort{% endblock %}
+{% block title %}Baby Comfort Guide - Infant Cry Detection{% endblock %}
 {% load static %}
-
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
 {% block custom_styles %}
 <style>
-    body {
-        background: linear-gradient(to bottom, #f9f9f9, #ffffff);
-        font-family: 'Roboto', sans-serif;
-        color: #333;
-        line-height: 1.6;
+    :root {
+        --dc-primary: var(--primary-color, #1a365d);
+        --dc-secondary: var(--secondary-color, #c5a059);
+        --dc-bg: #f8fafc;
+        --dc-text: #2d3748;
+        --dc-muted: #718096;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .main-container {
-        padding: 4rem 1rem;
+    body {
+        background-color: var(--dc-bg);
+    }
+
+    /* Hero */
+    .dc-hero {
+        background: linear-gradient(135deg, var(--dc-primary) 0%, #0f2038 100%);
+        padding: 5rem 0 7rem;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+    
+    .dc-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -1px; left: 0; right: 0;
+        height: 50px;
+        background: var(--dc-bg);
+        clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 100%, 0 0);
+    }
+
+    .dc-title {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .dc-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.8);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Sections */
+    .content-section {
+        padding: 4rem 0;
     }
 
     .section-header {
@@ -24,319 +60,591 @@
         margin-bottom: 3rem;
     }
 
-    .section-title {
-        font-family: var(--font-heading);
+    .section-header h2 {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        color: var(--dc-primary);
         font-size: 2.5rem;
-        color: var(--primary-color);
-        margin-bottom: 1rem;
         font-weight: 700;
+        position: relative;
+        display: inline-block;
     }
 
-    .section-subtitle {
-        font-size: 1.2rem;
-        color: #7f8c8d;
+    .section-header h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--dc-secondary);
+        border-radius: 3px;
     }
 
-    .info-card {
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
+    /* Mini Grid Cards for Signs */
+    .sign-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.03);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .sign-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 4px; height: 100%;
+        background: var(--dc-secondary);
+        transition: var(--transition);
+        z-index: -1;
+    }
+
+    .sign-card.hungry::before {
+        background: #38a169; /* A soft green for hungry */
+    }
+
+    .sign-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    }
+
+    .sign-card:hover::before {
+        width: 100%;
+        opacity: 0.03;
+    }
+
+    .sign-icon {
+        width: 50px; height: 50px;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--dc-secondary);
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .sign-card.hungry .sign-icon {
+        background: rgba(56, 161, 105, 0.1);
+        color: #38a169;
+    }
+
+    .sign-title {
+        font-weight: 700;
+        color: var(--dc-primary);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .sign-detail {
+        font-size: 0.9rem;
+        color: var(--dc-muted);
+        margin: 0;
+    }
+    
+    .sign-detail strong {
+        color: var(--dc-text);
+    }
+
+    /* Belly Pain Accordion Customization */
+    .custom-accordion .accordion-item {
+        border: none;
+        margin-bottom: 1rem;
+        border-radius: 12px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02);
         overflow: hidden;
     }
-
-    .info-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    .custom-accordion .accordion-button {
+        font-weight: 600;
+        color: var(--dc-primary);
+        padding: 1.25rem 1.5rem;
+        background: white;
+        box-shadow: none !important;
     }
 
-    .card-header {
-        background: #f8fafc;
-        padding: 1.5rem;
-        border-bottom: 1px solid #ddd;
-        border-top: 4px solid var(--secondary-color);
+    .custom-accordion .accordion-button:not(.collapsed) {
+        background: rgba(197, 160, 89, 0.05);
+        color: var(--dc-primary);
     }
 
-    .card-title {
-        font-family: var(--font-heading);
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        margin: 0;
-        font-weight: 700;
+    .custom-accordion .accordion-button::after {
+        filter: grayscale(100%);
     }
 
-    .card-body {
-        padding: 1.5rem;
+    .custom-accordion .accordion-body {
+        background: white;
+        padding: 0 1.5rem 1.5rem;
+        border-top: 1px solid rgba(0,0,0,0.03);
     }
 
-    .card-item {
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px dashed #ddd;
+    .pain-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
-    .card-item:last-child {
-        border-bottom: none;
-    }
-
-    .item-title {
-        font-weight: 500;
-        color: #34495e;
-    }
-
-    .item-detail {
-        color: #7f8c8d;
-    }
-
-    .references-section {
-        background: #f4f6f7;
-        border-radius: 10px;
-        padding: 2rem;
-        margin-top: 4rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .references-title {
-        font-family: var(--font-heading);
-        font-size: 1.8rem;
-        color: var(--primary-color);
-        text-align: center;
-        margin-bottom: 1.5rem;
-        font-weight: 700;
-    }
-
-    .reference-item {
+    .pain-box {
         padding: 1rem;
-        background: #ffffff;
-        border-radius: 5px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border-left: 3px solid #ccc;
+    }
+    .pain-box.reason { border-color: var(--dc-secondary); background: rgba(197, 160, 89, 0.05); }
+    .pain-box.treatment { border-color: #38a169; background: rgba(56, 161, 105, 0.05); }
+    .pain-box.doctor { border-color: #e53e3e; background: rgba(229, 62, 62, 0.05); }
+
+    .pain-box h6 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .pain-box.reason h6 { color: var(--dc-secondary); }
+    .pain-box.treatment h6 { color: #38a169; }
+    .pain-box.doctor h6 { color: #e53e3e; }
+
+    .pain-box p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--dc-text);
+    }
+
+    /* Burping Cards */
+    .burp-card {
+        background: linear-gradient(135deg, var(--dc-primary), #112240);
+        color: white;
+        border-radius: 16px;
+        padding: 2rem;
+        height: 100%;
+        text-align: center;
+        transition: var(--transition);
+        border-bottom: 4px solid var(--dc-secondary);
+    }
+
+    .burp-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(26, 54, 93, 0.3);
+    }
+
+    .burp-icon {
+        font-size: 2rem;
+        color: var(--dc-secondary);
         margin-bottom: 1rem;
-        transition: background 0.3s;
     }
 
-    .reference-item:hover {
-        background: #ecf0f1;
+    .burp-title {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
     }
 
-    .reference-link {
-        color: var(--primary-color);
+    .burp-technique {
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.8);
+        background: rgba(255,255,255,0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    /* References */
+    .ref-container {
+        background: white;
+        border-radius: 16px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    }
+    
+    .ref-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .ref-link {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        color: var(--dc-text);
         text-decoration: none;
-        font-weight: 500;
+        transition: var(--transition);
+        border: 1px solid transparent;
     }
 
-    .reference-link:hover {
-        color: var(--secondary-color);
-        text-decoration: underline;
+    .ref-link i {
+        color: var(--dc-secondary);
+        margin-right: 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    .ref-link:hover {
+        background: white;
+        border-color: var(--dc-secondary);
+        color: var(--dc-primary);
+        transform: translateX(5px);
     }
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
+<div class="dc-hero">
+    <div class="container">
+        <h1 class="dc-title">Baby Comfort Guide</h1>
+        <p class="dc-subtitle">An interactive guide to recognizing and addressing your baby's unique needs, signs, and discomforts.</p>
+    </div>
+</div>
+
 <!-- Main Content -->
-<div class="container main-container">
-    <!-- First Row: Discomfort and Hungry Signs -->
-    <div class="section-header">
-        <h1 class="section-title">Baby Comfort Guide</h1>
-        <p class="section-subtitle">Recognizing and addressing your baby's needs</p>
-    </div>
+<div class="container" style="margin-top: -2rem; position: relative; z-index: 2; padding-bottom: 4rem;">
 
-    <div class="two-column-section">
-        <div class="column">
-            <div class="info-card left-card">
-                <div class="card-header">
-                    <h2 class="card-title">Discomfort Signs</h2>
-                </div>
-                <div class="card-body">
-                    <div class="card-item">
-                        <h3 class="item-title">Difficulty in sleeping and settling down</h3>
-                        <p class="item-detail"><strong>Attention:</strong> Is your baby crying indicating colic?</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Difficulty in feeding</h3>
-                        <p class="item-detail"><strong>Attention:</strong> When feeding becomes stressful or avoided</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Intense crying</h3>
-                        <p class="item-detail"><strong>Attention:</strong> Excessive crying may signal pain or distress
-                        </p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Lack of energy</h3>
-                        <p class="item-detail"><strong>Attention:</strong> Baby is less responsive or inactive</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Pained facial expressions</h3>
-                        <p class="item-detail"><strong>Attention:</strong> Persistent grimacing or clenched jaw</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Tense or stiff body movements</h3>
-                        <p class="item-detail"><strong>Attention:</strong> Arching back or rigid limbs repeatedly</p>
-                    </div>
-
-                </div>
+    <!-- Signs Grid -->
+    <div class="row g-5">
+        <!-- Discomfort Signs -->
+        <div class="col-lg-6">
+            <div class="section-header text-lg-start">
+                <h2>Discomfort Signs</h2>
+                <p class="text-muted mt-2">Common physical indicators of distress</p>
             </div>
-        </div>
-
-        <div class="column-divider"></div>
-
-        <div class="column">
-            <div class="info-card right-card">
-                <div class="card-header">
-                    <h2 class="card-title">Hungry Signs</h2>
-                </div>
-                <div class="card-body">
-                    <div class="card-item">
-                        <h3 class="item-title">Putting hands in or near mouth</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> Comfort</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Waving hands toward mouth</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> Teething</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Turning head toward breast/chest area</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> Acid reflux</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Turning toward or looking at bottle</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> Anxiety</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Puckering or smacking lips</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> —</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Clenching little hands</h3>
-                        <p class="item-detail"><strong>Other Issue:</strong> —</p>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-moon-stars"></i></div>
+                        <h3 class="sign-title">Difficulty Sleeping</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> Is your baby crying indicating colic?</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Second Row: Belly Pain and Burping -->
-    <div class="two-column-section">
-        <div class="column">
-            <div class="info-card left-card">
-                <div class="card-header">
-                    <h2 class="card-title">Belly Pain</h2>
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-cup-straw"></i></div>
+                        <h3 class="sign-title">Difficulty Feeding</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> When feeding becomes stressful or avoided</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="card-item">
-                        <h3 class="item-title">Crying more than usual</h3>
-                        <p class="item-detail"><strong>Reason:</strong> Gas</p>
-                        <p class="item-detail"><strong>Treatment:</strong> Bicycle baby's legs</p>
-                        <p class="item-detail"><strong>See a doctor if:</strong> Fever of 100.4°F (38°C) or above</p>
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-volume-up"></i></div>
+                        <h3 class="sign-title">Intense Crying</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> Excessive crying may signal pain</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Spitting up or vomiting</h3>
-                        <p class="item-detail"><strong>Reason:</strong> Constipation</p>
-                        <p class="item-detail"><strong>Treatment:</strong> Take a look at their diet</p>
-                        <p class="item-detail"><strong>See a doctor if:</strong> Diarrhea that lasts more than 48 hours
-                        </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-battery"></i></div>
+                        <h3 class="sign-title">Lack of Energy</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> Baby is less responsive or inactive</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Refusing to eat</h3>
-                        <p class="item-detail"><strong>Reason:</strong> Formula ingredients</p>
-                        <p class="item-detail"><strong>Treatment:</strong> Take a look at your diet</p>
-                        <p class="item-detail"><strong>See a doctor if:</strong> Constipation that lasts more than a few
-                            days</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-emoji-frown"></i></div>
+                        <h3 class="sign-title">Pained Expressions</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> Persistent grimacing or clenched jaw</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Unusual sleep disruptions</h3>
-                        <p class="item-detail"><strong>Reason:</strong> Allergies or sensitivities</p>
-                        <p class="item-detail"><strong>Treatment:</strong> Address feeding issues</p>
-                        <p class="item-detail"><strong>See a doctor if:</strong> Signs of extreme stress like nonstop
-                            screaming</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Diarrhea or constipation</h3>
-                        <p class="item-detail"><strong>Reason:</strong> GERD (reflux)</p>
-                        <p class="item-detail"><strong>Treatment:</strong> Consider a different formula</p>
-                        <p class="item-detail"><strong>See a doctor if:</strong> Extreme fatigue</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card">
+                        <div class="sign-icon"><i class="bi bi-person-arms-up"></i></div>
+                        <h3 class="sign-title">Tense Movements</h3>
+                        <p class="sign-detail"><strong>Attention:</strong> Arching back or rigid limbs repeatedly</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="column-divider"></div>
-
-        <div class="column">
-            <div class="info-card right-card">
-                <div class="card-header">
-                    <h2 class="card-title">Burping Techniques</h2>
+        <!-- Hungry Signs -->
+        <div class="col-lg-6">
+            <div class="section-header text-lg-start">
+                <h2>Hungry Signs</h2>
+                <p class="text-muted mt-2">Early cues before intense crying begins</p>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-hand-index-thumb"></i></div>
+                        <h3 class="sign-title">Hands Near Mouth</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> Comfort</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="item-detail" style="margin-bottom: 1.5rem;">
-                        Burping helps release air swallowed during feeding. Try these techniques when your baby shows
-                        signs of discomfort.
-                    </p>
-                    <p class="item-detail" style="margin-bottom: 1.5rem;">
-                        Burping helps release air swallowed during feeding. Try these techniques when your baby shows
-                        signs of discomfort.
-                    </p>
-
-                    <div class="card-item">
-                        <h3 class="item-title">When they're sucking</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Over the shoulder</p>
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-sign-stop"></i></div>
+                        <h3 class="sign-title">Waving Hands</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> Teething</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Slows down during feeds</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Sitting on your lap</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-arrow-repeat"></i></div>
+                        <h3 class="sign-title">Turning Head</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> Acid reflux</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Fussing during feeds</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Lying across your lap</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-eye"></i></div>
+                        <h3 class="sign-title">Looking at Bottle</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> Anxiety</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Between sides when breastfeeding</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Gentle back pats</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-emoji-kiss"></i></div>
+                        <h3 class="sign-title">Puckering Lips</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> None</p>
                     </div>
-                    <div class="card-item">
-                        <h3 class="item-title">At the end of a feed</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Upright position for 10-15 minutes</p>
-                    </div>
-                    <div class="card-item">
-                        <h3 class="item-title">Arched back or crying</h3>
-                        <p class="item-detail"><strong>How to burp:</strong> Try different positions</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="sign-card hungry">
+                        <div class="sign-icon"><i class="bi bi-hand-index"></i></div>
+                        <h3 class="sign-title">Clenching Hands</h3>
+                        <p class="sign-detail"><strong>Other Issue:</strong> None</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- References Section at Bottom -->
-    <div class="references-section">
-        <h2 class="references-title">References</h2>
-        <ul class="reference-list">
-            <li class="reference-item">
-                <a href="https://www.news-medical.net/health/Pain-in-Infants.aspx" class="reference-link"
-                    target="_blank">News Medical - Pain in Infants</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.healthline.com/health/baby/baby-upset-stomach#when-to-see-the-doctor"
-                    class="reference-link" target="_blank">Healthline - Baby Upset Stomach</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.childrenshospital.org/conditions/abdominal-pain-children/symptoms-causes"
-                    class="reference-link" target="_blank">Children's Hospital - Abdominal Pain</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.mayoclinicproceedings.org/article/S0025-6196(16)31773-7/fulltext"
-                    class="reference-link" target="_blank">Mayo Clinic - Belly Pain in Babies</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.pregnancybirthbaby.org.au/burping-and-wind-in-babies" class="reference-link"
-                    target="_blank">Pregnancy, Birth & Baby</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.unicef.org/parenting/child-care/how-to-burp-baby" class="reference-link"
-                    target="_blank">UNICEF - How to burp a baby</a>
-            </li>
-            <li class="reference-item">
-                <a href="https://www.healthline.com/health/baby/hungry-baby#other-issues" class="reference-link"
-                    target="_blank">Healthline - Hungry Baby</a>
-            </li>
-        </ul>
+    <!-- Belly Pain Interactive Accordion -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Belly Pain Diagnostics</h2>
+            <p class="text-muted mt-2">Identify symptoms, understand reasons, and know when to seek medical help</p>
+        </div>
+
+        <div class="accordion custom-accordion" id="bellyPainAccordion">
+            <!-- Item 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="bi bi-exclamation-circle-fill me-2 text-danger"></i> Crying more than usual
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#bellyPainAccordion">
+                    <div class="accordion-body">
+                        <div class="pain-detail-grid">
+                            <div class="pain-box reason">
+                                <h6><i class="bi bi-search me-1"></i>Reason</h6>
+                                <p>Gas accumulation</p>
+                            </div>
+                            <div class="pain-box treatment">
+                                <h6><i class="bi bi-heart-pulse me-1"></i>Treatment</h6>
+                                <p>Bicycle baby's legs</p>
+                            </div>
+                            <div class="pain-box doctor">
+                                <h6><i class="bi bi-hospital me-1"></i>See Doctor If</h6>
+                                <p>Fever of 100.4°F (38°C) or above</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <i class="bi bi-exclamation-circle-fill me-2 text-danger"></i> Spitting up or vomiting
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#bellyPainAccordion">
+                    <div class="accordion-body">
+                        <div class="pain-detail-grid">
+                            <div class="pain-box reason">
+                                <h6><i class="bi bi-search me-1"></i>Reason</h6>
+                                <p>Constipation</p>
+                            </div>
+                            <div class="pain-box treatment">
+                                <h6><i class="bi bi-heart-pulse me-1"></i>Treatment</h6>
+                                <p>Take a look at their diet</p>
+                            </div>
+                            <div class="pain-box doctor">
+                                <h6><i class="bi bi-hospital me-1"></i>See Doctor If</h6>
+                                <p>Diarrhea lasts more than 48 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <i class="bi bi-exclamation-circle-fill me-2 text-danger"></i> Refusing to eat
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#bellyPainAccordion">
+                    <div class="accordion-body">
+                        <div class="pain-detail-grid">
+                            <div class="pain-box reason">
+                                <h6><i class="bi bi-search me-1"></i>Reason</h6>
+                                <p>Formula ingredients</p>
+                            </div>
+                            <div class="pain-box treatment">
+                                <h6><i class="bi bi-heart-pulse me-1"></i>Treatment</h6>
+                                <p>Take a look at your diet</p>
+                            </div>
+                            <div class="pain-box doctor">
+                                <h6><i class="bi bi-hospital me-1"></i>See Doctor If</h6>
+                                <p>Constipation lasts more than a few days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <i class="bi bi-exclamation-circle-fill me-2 text-danger"></i> Unusual sleep disruptions
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#bellyPainAccordion">
+                    <div class="accordion-body">
+                        <div class="pain-detail-grid">
+                            <div class="pain-box reason">
+                                <h6><i class="bi bi-search me-1"></i>Reason</h6>
+                                <p>Allergies or sensitivities</p>
+                            </div>
+                            <div class="pain-box treatment">
+                                <h6><i class="bi bi-heart-pulse me-1"></i>Treatment</h6>
+                                <p>Address feeding issues</p>
+                            </div>
+                            <div class="pain-box doctor">
+                                <h6><i class="bi bi-hospital me-1"></i>See Doctor If</h6>
+                                <p>Signs of extreme stress like nonstop screaming</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <i class="bi bi-exclamation-circle-fill me-2 text-danger"></i> Diarrhea or constipation
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#bellyPainAccordion">
+                    <div class="accordion-body">
+                        <div class="pain-detail-grid">
+                            <div class="pain-box reason">
+                                <h6><i class="bi bi-search me-1"></i>Reason</h6>
+                                <p>GERD (reflux)</p>
+                            </div>
+                            <div class="pain-box treatment">
+                                <h6><i class="bi bi-heart-pulse me-1"></i>Treatment</h6>
+                                <p>Consider a different formula</p>
+                            </div>
+                            <div class="pain-box doctor">
+                                <h6><i class="bi bi-hospital me-1"></i>See Doctor If</h6>
+                                <p>Extreme fatigue</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Burping Techniques Masterclass -->
+    <div class="content-section pt-0">
+        <div class="section-header">
+            <h2>Burping Masterclass</h2>
+            <p class="text-muted mt-2">Burping helps release swallowed air. Try these techniques when your baby shows signs of discomfort.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-arrow-up-circle burp-icon"></i>
+                    <h4 class="burp-title">While Sucking</h4>
+                    <span class="burp-technique">Over the shoulder</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-pause-circle burp-icon"></i>
+                    <h4 class="burp-title">Slows Down</h4>
+                    <span class="burp-technique">Sitting on your lap</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-emoji-frown burp-icon"></i>
+                    <h4 class="burp-title">Fussing During Feeds</h4>
+                    <span class="burp-technique">Lying across your lap</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-arrow-left-right burp-icon"></i>
+                    <h4 class="burp-title">Between Sides</h4>
+                    <span class="burp-technique">Gentle back pats</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-check2-circle burp-icon"></i>
+                    <h4 class="burp-title">End of Feed</h4>
+                    <span class="burp-technique">Upright for 10-15 mins</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="burp-card">
+                    <i class="bi bi-activity burp-icon"></i>
+                    <h4 class="burp-title">Arched Back / Crying</h4>
+                    <span class="burp-technique">Try different positions</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- References -->
+    <div class="ref-container">
+        <div class="section-header mb-4">
+            <h2 style="font-size: 2rem;">Medical References</h2>
+        </div>
+        <div class="ref-grid">
+            <a href="https://www.news-medical.net/health/Pain-in-Infants.aspx" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> News Medical
+            </a>
+            <a href="https://www.healthline.com/health/baby/baby-upset-stomach#when-to-see-the-doctor" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> Healthline Stomach
+            </a>
+            <a href="https://www.childrenshospital.org/conditions/abdominal-pain-children/symptoms-causes" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> Children's Hospital
+            </a>
+            <a href="https://www.mayoclinicproceedings.org/article/S0025-6196(16)31773-7/fulltext" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> Mayo Clinic
+            </a>
+            <a href="https://www.pregnancybirthbaby.org.au/burping-and-wind-in-babies" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> Pregnancy, Birth & Baby
+            </a>
+            <a href="https://www.unicef.org/parenting/child-care/how-to-burp-baby" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> UNICEF
+            </a>
+            <a href="https://www.healthline.com/health/baby/hungry-baby#other-issues" class="ref-link" target="_blank">
+                <i class="bi bi-journal-medical"></i> Healthline Hungry
+            </a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

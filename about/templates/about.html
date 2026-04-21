@@ -1,205 +1,268 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Research & Innovation{% endblock %}
+{% block title %}Research & Innovation - Infant Cry Detection{% endblock %}
 
 {% block content %}
 <style>
-  /* Modern styling with enhanced visuals */
+  /* Modern Classic Styling */
   :root {
-    --gradient-primary: linear-gradient(135deg, var(--primary-color), #112240);
-    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #a3823c);
-    --bg-blur: rgba(255, 255, 255, 0.9);
+    --abt-primary: var(--primary-color, #1a365d);
+    --abt-secondary: var(--secondary-color, #c5a059);
+    --abt-bg: #f8fafc;
+    --abt-text: #2d3748;
+    --abt-muted: #718096;
+    --transition: all 0.3s ease;
   }
 
+  body {
+    background-color: white;
+  }
+
+  /* Typography */
   .section-title {
     text-align: center;
-    margin-bottom: 2.5rem;
-    font-weight: 800;
+    margin-bottom: 3rem;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-weight: 700;
+    color: var(--abt-primary);
     position: relative;
     display: inline-block;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
-
   .section-title:after {
     content: '';
     position: absolute;
-    width: 80px;
-    height: 4px;
+    width: 60px;
+    height: 3px;
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--gradient-primary);
+    background: var(--abt-secondary);
     border-radius: 2px;
   }
 
+  /* Hero Section */
   .hero-section {
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, var(--abt-primary) 0%, #0f2038 100%);
     color: white;
-    padding: 8rem 0;
+    padding: 7rem 0 6rem;
     position: relative;
     overflow: hidden;
   }
-
   .hero-section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='rgba(197, 160, 89, 0.15)'/%3E%3C/svg%3E");
     z-index: 0;
   }
+  .hero-content { position: relative; z-index: 1; text-align: center; }
+  .hero-content h1 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 3.5rem; font-weight: 700; }
+  .hero-section .lead { font-size: 1.25rem; max-width: 800px; margin: 1.5rem auto 0; line-height: 1.8; color: rgba(255,255,255,0.9); font-family: var(--font-body, 'Inter', sans-serif); }
 
-  .hero-content {
+  /* Key Features */
+  .feature-box {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    transition: var(--transition);
+    height: 100%;
+    text-align: center;
+  }
+  .feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(197, 160, 89, 0.1);
+    border-color: rgba(197, 160, 89, 0.3);
+  }
+  .feature-icon-wrapper {
+    width: 70px; height: 70px;
+    margin: 0 auto 1.5rem;
+    background: rgba(197, 160, 89, 0.1);
+    color: var(--abt-secondary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+  }
+  .feature-box h3 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.5rem; color: var(--abt-primary); font-weight: 700; margin-bottom: 1rem; }
+  .feature-box p { color: var(--abt-muted); line-height: 1.6; margin: 0; }
+
+  /* === KEPT: CSS FOR TEAM SECTION ANIMATION === */
+  .team-section {
+    padding: 5rem 0;
+    background: var(--abt-bg);
+  }
+  .team-card {
     position: relative;
-    z-index: 1;
-  }
-
-  .hero-section .lead {
-    font-size: 1.35rem;
-    max-width: 800px;
-    margin: 2rem auto 0;
-    line-height: 1.8;
-  }
-
-  /* css for team section start */
-.team-section {
-  padding: 4rem 0;
-  background: #FBFBFB;
-  color: white;
-}
-
-.team-card {
-  position: relative;
-  width: 200px;
-  height: 300px;
-  perspective: 1000px;
-  margin: 0 auto;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transform-style: preserve-3d;
-  transition: transform 0.6s;
-}
-
-.team-card:hover .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
- 
-.card-front {
-  background: linear-gradient(to bottom right, var(--primary-color), var(--dark-color));
-  color: white;
-}
-
-.card-front img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.card-back {
-  background: var(--dark-color);
-  color: white;
-  transform: rotateY(180deg);
-  padding: 1rem;
-  text-align: center;
-}
-
-  /* css for team section end */
-
-  .research-section {
-    background: var(--light-color);
-    padding: 4rem 0;
-  }
-
-  .research-section ul {
-    list-style: disc inside;
-    max-width: 800px;
+    width: 200px;
+    height: 300px;
+    perspective: 1000px;
     margin: 0 auto;
   }
-
-  .research-section ul li {
-    margin-bottom: 0.75rem;
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
   }
+  .team-card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+  }
+  .card-front {
+    background: white;
+    border-top: 4px solid var(--abt-secondary);
+    color: var(--abt-text);
+  }
+  .card-front img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid rgba(197, 160, 89, 0.2);
+    object-fit: cover;
+  }
+  .card-front h4, .card-front h5 {
+    color: var(--abt-primary);
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .card-back {
+    background: linear-gradient(135deg, var(--abt-primary), #0f2038);
+    color: white;
+    transform: rotateY(180deg);
+    text-align: center;
+  }
+  /* =========================================== */
+
+  /* Research Impact */
+  .impact-card {
+    background: white; 
+    border-radius: 16px; 
+    padding: 3rem 2rem; 
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
+    border: 1px solid rgba(0,0,0,0.03);
+  }
+  .impact-card h3 { 
+    font-family: var(--font-heading, 'Playfair Display', serif); 
+    color: var(--abt-primary); 
+    font-weight: 700; 
+    margin-bottom: 2rem; 
+    border-bottom: 2px solid rgba(197, 160, 89, 0.2); 
+    padding-bottom: 1rem; 
+  }
+  .impact-list { padding: 0; list-style: none; }
+  .impact-list li { display: flex; margin-bottom: 1.2rem; color: var(--abt-text); line-height: 1.5; }
+  .impact-list li i { color: var(--abt-secondary); margin-right: 1rem; font-size: 1.2rem; margin-top: 2px; }
+
+  /* Methodology */
+  .methodology-section { padding: 5rem 0; background: var(--abt-bg); }
+  .method-box { text-align: center; padding: 2rem; }
+  .method-icon { font-size: 3rem; color: var(--abt-secondary); margin-bottom: 1rem; }
+  .method-box h4 { font-family: var(--font-heading, 'Playfair Display', serif); color: var(--abt-primary); font-weight: 700; margin-bottom: 0.5rem; }
+  .method-box p { color: var(--abt-muted); }
+
+  /* Insights */
+  .insights-section { padding: 5rem 0; background: white; }
+  .insight-item { display: flex; margin-bottom: 1.5rem; }
+  .insight-item-icon { color: var(--abt-secondary); font-size: 1.5rem; margin-right: 1.5rem; }
+  .insight-item-content strong { color: var(--abt-primary); font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.2rem; display: block; margin-bottom: 0.2rem; }
+  .insight-item-content { color: var(--abt-muted); line-height: 1.6; }
+
+  /* Table */
+  .ai-accuracy-section { padding: 5rem 0; background: var(--abt-bg); }
+  .ai-accuracy-table-container { overflow-x: auto; }
+  .ai-accuracy-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); background: white; }
+  .ai-accuracy-table th { background: var(--abt-primary); color: white; padding: 1.2rem 1rem; font-weight: 600; text-align: center; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; border: none; }
+  .ai-accuracy-table td { padding: 1rem; text-align: center; border-bottom: 1px solid #edf2f7; color: var(--abt-text); }
+  .ai-accuracy-table tbody tr { transition: background 0.2s; }
+  .ai-accuracy-table tbody tr:hover { background: #f8fafc; }
+  .ai-accuracy-table .highlighted-row td { background: rgba(197, 160, 89, 0.08); font-weight: 700; color: var(--abt-primary); border-top: 1px solid var(--abt-secondary); border-bottom: 1px solid var(--abt-secondary); }
+  .ai-accuracy-table a { color: inherit; text-decoration: none; border-bottom: 1px dashed #ccc; transition: all 0.2s; }
+  .ai-accuracy-table a:hover { color: var(--abt-secondary); border-bottom-color: var(--abt-secondary); }
+
+  /* Bottom Actions */
+  .bottom-actions { padding: 5rem 0; background: white; }
+  .action-box { background: white; padding: 3rem; border-radius: 16px; text-align: center; height: 100%; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+  .action-box h2 { font-family: var(--font-heading, 'Playfair Display', serif); color: var(--abt-primary); font-weight: 700; margin-bottom: 1rem; font-size: 2rem; }
+  .action-box p { color: var(--abt-muted); margin-bottom: 2rem; }
+  .btn-gold { background: var(--abt-secondary); color: white; padding: 0.8rem 2.5rem; border-radius: 50px; font-weight: 600; transition: var(--transition); display: inline-block; border: none; text-decoration: none; }
+  .btn-gold:hover { background: #b08d4b; color: white; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2); }
 </style>
 
-<!-- Hero Section with Research Focus -->
-<section class="hero-section text-center">
+<!-- Hero Section -->
+<section class="hero-section">
   <div class="container hero-content">
-    <h1 class="display-3 fw-bold mb-4">Revolutionizing Infant Care Through AI</h1>
+    <h1>Revolutionizing Infant Care Through AI</h1>
     <p class="lead">
       Through advanced machine learning and audio signal processing, we've developed a groundbreaking system that achieves 
-      <span class="fw-bold">99.48% accuracy</span> in infant cry detection and classification. Our research combines 
+      <span class="text-warning fw-bold" style="color: var(--abt-secondary) !important;">99.48% accuracy</span> in infant cry detection and classification. Our research combines 
       cutting-edge AI with practical applications to transform how we understand and respond to infant needs.
     </p>
-
   </div>
 </section>
 
 <!-- Key Features Section -->
-<section class="py-5 bg-light">
+<section class="py-5" style="margin-top: -3rem; position: relative; z-index: 2;">
   <div class="container">
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="fs-1 me-3 text-primary">
-            <i class="fas fa-brain"></i>
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="bi bi-cpu"></i>
           </div>
-          <h3 class="h4 mb-0">Advanced AI</h3>
+          <h3>Advanced AI</h3>
+          <p>Utilizes state-of-the-art Support Vector Machine (SVM) algorithms achieving 99.48% accuracy in cry classification.</p>
         </div>
-        <p class="text-muted">Utilizes state-of-the-art Support Vector Machine (SVM) algorithms achieving 99.48% accuracy in cry classification.</p>
       </div>
       
       <div class="col-md-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="fs-1 me-3 text-primary">
-            <i class="fas fa-clock"></i>
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="bi bi-clock-history"></i>
           </div>
-          <h3 class="h4 mb-0">Real-time Analysis</h3>
+          <h3>Real-time Analysis</h3>
+          <p>Processes and analyzes cry signals in real-time, providing immediate insights to caregivers seamlessly.</p>
         </div>
-        <p class="text-muted">Processes and analyzes cry signals in real-time, providing immediate insights to caregivers.</p>
       </div>
       
       <div class="col-md-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="fs-1 me-3 text-primary">
-            <i class="fas fa-mobile-alt"></i>
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="bi bi-phone"></i>
           </div>
-          <h3 class="h4 mb-0">User-Friendly</h3>
+          <h3>User-Friendly</h3>
+          <p>Accessible through an intuitive web interface, making our complex AI technology available to parents worldwide.</p>
         </div>
-        <p class="text-muted">Accessible through an intuitive web interface, making our technology available to parents worldwide.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2) Our Team -->
+<!-- Meet Our Team (Animations Retained) -->
 <section class="team-section">
   <div class="container">
-    <h2 class="section-title" style="color:black;">Meet Our Team</h2>
+    <div class="section-title-wrapper w-100 text-center mb-5">
+        <h2 class="section-title">Meet Our Team</h2>
+    </div>
 
     <!-- Supervisor Section -->
     <div class="text-center mb-5 supervisor-card">
@@ -208,10 +271,10 @@
           <div class="card-front">
             <img src="{% static 'images/team/supervisor.jpg' %}" alt="Supervisor Name">
             <h4>Prof. Md Based</h4>
-            <p class="text-muted">Chairman, Dept. of CSE, DIU</p>
+            <p class="text-muted small mb-0">Chairman, Dept. of CSE, DIU</p>
           </div>
           <div class="card-back">
-            <p>
+            <p class="small mb-0">
               Prof. Md Based is the guiding force behind our project. His vision drives us toward excellence. Without his help, this project was impossible.
             </p>
           </div>
@@ -226,11 +289,11 @@
           <div class="card-inner">
             <div class="card-front">
               <img src="{% static 'images/team/mursalatul.jpg' %}" alt="Md Mursalatul Islam Pallob">
-              <h5>Md Mursalatul Islam Pallob</h5>
-              <p class="text-muted">B.Sc. Student, DIU</p>
+              <h5>Md Mursalatul</h5>
+              <p class="text-muted small mb-0">B.Sc. Student, DIU</p>
             </div>
             <div class="card-back">
-              <p>Enthusiastic about competitive programming, python and machine learning.</p>
+              <p class="small mb-0">Enthusiastic about competitive programming, python and machine learning.</p>
             </div>
           </div>
         </div>
@@ -241,10 +304,10 @@
             <div class="card-front">
               <img src="{% static 'images/team/nahid_usha.jpg' %}" alt="Nahid Usha">
               <h5>Nahid Usha</h5>
-              <p class="text-muted">B.Sc. Student, DIU</p>
+              <p class="text-muted small mb-0">B.Sc. Student, DIU</p>
             </div>
             <div class="card-back">
-              <p>Specializes in web development, django, back-end system and algorithm design.</p>
+              <p class="small mb-0">Specializes in web development, django, back-end system and algorithm design.</p>
             </div>
           </div>
         </div>
@@ -254,11 +317,11 @@
           <div class="card-inner">
             <div class="card-front">
               <img src="{% static 'images/team/farnaz_orpita.jpg' %}" alt="Farnaz Bashir Orpita">
-              <h5>Farnaz Bashir Orpita</h5>
-              <p class="text-muted">B.Sc. Student, DIU</p>
+              <h5>Farnaz Orpita</h5>
+              <p class="text-muted small mb-0">B.Sc. Student, DIU</p>
             </div>
             <div class="card-back">
-              <p>Focuses on deep learning architectures and model optimization.</p>
+              <p class="small mb-0">Focuses on deep learning architectures and model optimization.</p>
             </div>
           </div>
         </div>
@@ -269,10 +332,10 @@
             <div class="card-front">
               <img src="{% static 'images/team/nahid_hasan.jpg' %}" alt="Nahid Hasan">
               <h5>Nahid Hasan</h5>
-              <p class="text-muted">B.Sc. Student, DIU</p>
+              <p class="text-muted small mb-0">B.Sc. Student, DIU</p>
             </div>
             <div class="card-back">
-              <p>Passionate about data preprocessing and performance benchmarking.</p>
+              <p class="small mb-0">Passionate about data preprocessing and performance benchmarking.</p>
             </div>
           </div>
         </div>
@@ -282,11 +345,11 @@
           <div class="card-inner">
             <div class="card-front">
               <img src="{% static 'images/team/maliha_tahira.jpg' %}" alt="Maliha Nusrat Tahira">
-              <h5>Maliha Nusrat Tahira</h5>
-              <p class="text-muted">B.Sc. Student, DIU</p>
+              <h5>Maliha Tahira</h5>
+              <p class="text-muted small mb-0">B.Sc. Student, DIU</p>
             </div>
             <div class="card-back">
-              <p>Excels in UI/UX and integrating research findings into solutions.</p>
+              <p class="small mb-0">Excels in UI/UX and integrating research findings into solutions.</p>
             </div>
           </div>
         </div>
@@ -294,342 +357,251 @@
     </div>
   </div>
 </section>
-
-
 
 <!-- Research Impact Section -->
 <section class="py-5" id="research">
   <div class="container">
-    <h2 class="section-title text-center">Research Impact</h2>
+    <div class="section-title-wrapper w-100 text-center mb-5">
+        <h2 class="section-title">Research Impact</h2>
+    </div>
     
-    <div class="row g-4 mt-4">
+    <div class="row g-4">
       <div class="col-md-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body">
-            <h3 class="h4 mb-4">Technical Innovation</h3>
-            <ul class="list-unstyled">
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Advanced SVM implementation achieving 99.48% accuracy
-              </li>
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Real-time processing with sub-200ms latency
-              </li>
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Novel feature extraction techniques for cry analysis
-              </li>
-              <li>
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Scalable cloud-based architecture for global accessibility
-              </li>
-            </ul>
-          </div>
+        <div class="impact-card">
+          <h3>Technical Innovation</h3>
+          <ul class="impact-list">
+            <li><i class="bi bi-check-circle-fill"></i> Advanced SVM implementation achieving 99.48% accuracy</li>
+            <li><i class="bi bi-check-circle-fill"></i> Real-time processing with sub-200ms latency</li>
+            <li><i class="bi bi-check-circle-fill"></i> Novel feature extraction techniques for cry analysis</li>
+            <li><i class="bi bi-check-circle-fill"></i> Scalable cloud-based architecture for global accessibility</li>
+          </ul>
         </div>
       </div>
       
       <div class="col-md-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body">
-            <h3 class="h4 mb-4">Clinical Applications</h3>
-            <ul class="list-unstyled">
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Early detection of potential health issues
-              </li>
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Support for healthcare professionals in diagnosis
-              </li>
-              <li class="mb-3">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Reduced parental anxiety and improved care response
-              </li>
-              <li>
-                <i class="fas fa-check-circle text-success me-2"></i>
-                Integration potential with existing healthcare systems
-              </li>
-            </ul>
-          </div>
+        <div class="impact-card">
+          <h3>Clinical Applications</h3>
+          <ul class="impact-list">
+            <li><i class="bi bi-check-circle-fill"></i> Early detection of potential health issues</li>
+            <li><i class="bi bi-check-circle-fill"></i> Support for healthcare professionals in diagnosis</li>
+            <li><i class="bi bi-check-circle-fill"></i> Reduced parental anxiety and improved care response</li>
+            <li><i class="bi bi-check-circle-fill"></i> Integration potential with existing healthcare systems</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Research Methodology -->
-<section class="py-5 bg-light">
+<!-- Methodology & Insights -->
+<section class="methodology-section">
   <div class="container">
-    <h2 class="section-title text-center">Our Methodology</h2>
-    
-    <div class="row g-4 mt-4">
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <div class="display-4 mb-3 text-primary">
-              <i class="fas fa-microphone"></i>
+    <div class="row">
+        <div class="col-lg-6 mb-5 mb-lg-0 pr-lg-5">
+            <div class="section-title-wrapper w-100 text-lg-start mb-5">
+                <h2 class="section-title" style="margin-left: 0; left: 0;">Research Insights</h2>
             </div>
-            <h4>Data Collection</h4>
-            <p class="text-muted">High-quality audio samples collected across diverse environments and conditions</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <div class="display-4 mb-3 text-primary">
-              <i class="fas fa-wave-square"></i>
+            
+            <div class="insight-item">
+                <div class="insight-item-icon"><i class="bi bi-soundwave"></i></div>
+                <div class="insight-item-content">
+                    <strong>Acoustic Features</strong>
+                    We extract MFCCs, formant frequencies, and temporal rhythms proven to correlate with hunger vs. discomfort cries.
+                </div>
             </div>
-            <h4>Signal Processing</h4>
-            <p class="text-muted">Advanced acoustic feature extraction and noise reduction techniques</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <div class="display-4 mb-3 text-primary">
-              <i class="fas fa-brain"></i>
+            <div class="insight-item">
+                <div class="insight-item-icon"><i class="bi bi-cpu-fill"></i></div>
+                <div class="insight-item-content">
+                    <strong>Machine Learning</strong>
+                    Our ensemble of CNN and SVM models achieves >92% accuracy on labeled audio datasets (Zhang et al., 2023).
+                </div>
             </div>
-            <h4>Model Training</h4>
-            <p class="text-muted">SVM optimization achieving industry-leading accuracy rates</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <div class="display-4 mb-3 text-primary">
-              <i class="fas fa-chart-line"></i>
+            <div class="insight-item">
+                <div class="insight-item-icon"><i class="bi bi-stopwatch"></i></div>
+                <div class="insight-item-content">
+                    <strong>Real-Time Feedback</strong>
+                    Low-latency processing (<200ms) ensures you get the “reason” almost instantly after the first cry.
+                </div>
             </div>
-            <h4>Validation</h4>
-            <p class="text-muted">Rigorous testing and validation across multiple datasets</p>
-          </div>
+            <div class="insight-item">
+                <div class="insight-item-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+                <div class="insight-item-content">
+                    <strong>Clinical Relevance</strong>
+                    Early detection can flag potential health issues (e.g. colic, reflux) for pediatric follow-up.
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="col-lg-6">
+            <div class="row g-4">
+                <div class="col-sm-6">
+                    <div class="method-box">
+                        <i class="bi bi-mic-fill method-icon"></i>
+                        <h4>Data Collection</h4>
+                        <p>High-quality audio samples collected across diverse environments</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="method-box">
+                        <i class="bi bi-activity method-icon"></i>
+                        <h4>Signal Processing</h4>
+                        <p>Advanced acoustic feature extraction and noise reduction</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="method-box">
+                        <i class="bi bi-braces-asterisk method-icon"></i>
+                        <h4>Model Training</h4>
+                        <p>SVM optimization achieving industry-leading accuracy rates</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="method-box">
+                        <i class="bi bi-check2-all method-icon"></i>
+                        <h4>Validation</h4>
+                        <p>Rigorous testing and validation across multiple datasets</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 </section>
 
-<!-- 4) Research Insights -->
-<section class="research-section">
+<!-- AI Model Accuracy Section -->
+<section class="ai-accuracy-section">
   <div class="container">
-    <h2 class="section-title">Research Insights</h2>
-    <ul>
-      <li>
-        <strong>Acoustic Features:</strong> We extract MFCCs, formant frequencies,
-        and temporal rhythms proven to correlate with hunger vs. discomfort cries.
-      </li>
-      <li>
-        <strong>Machine Learning:</strong> Our ensemble of CNN and SVM models
-        achieves >92% accuracy on labeled audio datasets (Zhang et al., 2023).
-      </li>
-      <li>
-        <strong>Real-Time Feedback:</strong> Low-latency processing (<200ms) ensures you get the “reason” almost
-          instantly after the first cry. </li>
-      <li>
-        <strong>Clinical Relevance:</strong> Early detection can flag potential
-        health issues (e.g. colic, reflux) for pediatric follow-up.
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- show experimental results starts -->
-<style>
-  /* Page-specific styles */
-  .ai-accuracy-section {
-    padding: 4rem 2rem;
-    background-color: #f9f9f9;
-    border-top: 2px solid #ddd;
-  }
-
-  .ai-accuracy-section h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-
-  .ai-accuracy-section p {
-    text-align: center;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    color: #555;
-  }
-
-  .ai-accuracy-table {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .ai-accuracy-table th,
-  .ai-accuracy-table td {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-  }
-
-  .ai-accuracy-table th {
-    background-color: var(--primary-color);
-    color: white;
-    text-transform: uppercase;
-  }
-
-  .ai-accuracy-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  .ai-accuracy-table .highlighted-row {
-    background-color: rgba(197, 160, 89, 0.2);
-    /* Light gold for visibility */
-    font-weight: bold;
-    /* Make text bold */
-    border: 2px solid var(--secondary-color);
-    /* Gold border for emphasis */
-  }
-</style>
-<!-- AI Model Accuracy Section -->
-<!-- AI Model Accuracy Section -->
-<section class="ai-accuracy-section ">
-  <div class="container my-5">
-    <h2 class="section-title">AI Model Performance Overview</h2>
-    <p class="section-description">
-      This table provides a comprehensive overview of the accuracy and performance metrics for various AI models.
+    <div class="section-title-wrapper w-100 text-center mb-4">
+        <h2 class="section-title">AI Model Performance Overview</h2>
+    </div>
+    <p class="text-center text-muted mb-5 max-w-75 mx-auto" style="max-width: 700px;">
+      This table provides a comprehensive overview of the accuracy and performance metrics for various AI models evaluated during our research.
     </p>
 
-    <table class="ai-accuracy-table">
-      <thead>
-        <tr>
-          <th><span title="Reference number for the model in the table">No.</span></th>
-          <th><span title="Name of the AI model being evaluated">Model Name</span></th>
-          <th><span title="The overall accuracy percentage of the model">Accuracy</span></th>
-          <th><span title="The harmonic mean of Precision and Recall">F1 Score</span></th>
-          <th><span title="The proportion of true positives among all positive predictions">Precision</span></th>
-          <th><span title="The proportion of true positives among all actual positives">Recall</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="highlighted-row">
-          <td>1</td>
-          <td><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank">SVM</a></td>
-          <td>99.48</td>
-          <td>99.48</td>
-          <td>99.49</td>
-          <td>99.48</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Extra Trees</a></td>
-          <td>99.21</td>
-          <td>99.22</td>
-          <td>99.24</td>
-          <td>99.22</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><a href="https://en.wikipedia.org/wiki/CatBoost" target="_blank">CatBoost</a></td>
-          <td>99.21</td>
-          <td>99.22</td>
-          <td>99.22</td>
-          <td>99.22</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forest</a></td>
-          <td>99.21</td>
-          <td>99.21</td>
-          <td>99.23</td>
-          <td>99.22</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><a href="https://en.wikipedia.org/wiki/LightGBM" target="_blank">LightGBM</a></td>
-          <td>99.21</td>
-          <td>99.21</td>
-          <td>99.22</td>
-          <td>99.22</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td><a href="https://en.wikipedia.org/wiki/Histogram-based_gradient_boosting" target="_blank">HistGBM</a></td>
-          <td>98.95</td>
-          <td>98.95</td>
-          <td>98.96</td>
-          <td>98.95</td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td><a href="https://en.wikipedia.org/wiki/XGBoost" target="_blank">XGBoost</a></td>
-          <td>98.17</td>
-          <td>98.17</td>
-          <td>98.2</td>
-          <td>98.17</td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td><a href="https://en.wikipedia.org/wiki/Quadratic_discriminant_analysis" target="_blank">QDA</a></td>
-          <td>97.38</td>
-          <td>97.43</td>
-          <td>97.67</td>
-          <td>97.39</td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron" target="_blank">MLP</a></td>
-          <td>97.38</td>
-          <td>97.31</td>
-          <td>97.49</td>
-          <td>97.37</td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank">GBM</a></td>
-          <td>97.12</td>
-          <td>97.12</td>
-          <td>97.13</td>
-          <td>97.12</td>
-        </tr>
-        <!-- Add remaining rows -->
-      </tbody>
-    </table>
+    <div class="ai-accuracy-table-container">
+        <table class="ai-accuracy-table">
+        <thead>
+            <tr>
+            <th>No.</th>
+            <th>Model Name</th>
+            <th>Accuracy (%)</th>
+            <th>F1 Score</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="highlighted-row">
+            <td>1</td>
+            <td><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank">SVM</a></td>
+            <td>99.48</td>
+            <td>99.48</td>
+            <td>99.49</td>
+            <td>99.48</td>
+            </tr>
+            <tr>
+            <td>2</td>
+            <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Extra Trees</a></td>
+            <td>99.21</td>
+            <td>99.22</td>
+            <td>99.24</td>
+            <td>99.22</td>
+            </tr>
+            <tr>
+            <td>3</td>
+            <td><a href="https://en.wikipedia.org/wiki/CatBoost" target="_blank">CatBoost</a></td>
+            <td>99.21</td>
+            <td>99.22</td>
+            <td>99.22</td>
+            <td>99.22</td>
+            </tr>
+            <tr>
+            <td>4</td>
+            <td><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forest</a></td>
+            <td>99.21</td>
+            <td>99.21</td>
+            <td>99.23</td>
+            <td>99.22</td>
+            </tr>
+            <tr>
+            <td>5</td>
+            <td><a href="https://en.wikipedia.org/wiki/LightGBM" target="_blank">LightGBM</a></td>
+            <td>99.21</td>
+            <td>99.21</td>
+            <td>99.22</td>
+            <td>99.22</td>
+            </tr>
+            <tr>
+            <td>6</td>
+            <td><a href="https://en.wikipedia.org/wiki/Histogram-based_gradient_boosting" target="_blank">HistGBM</a></td>
+            <td>98.95</td>
+            <td>98.95</td>
+            <td>98.96</td>
+            <td>98.95</td>
+            </tr>
+            <tr>
+            <td>7</td>
+            <td><a href="https://en.wikipedia.org/wiki/XGBoost" target="_blank">XGBoost</a></td>
+            <td>98.17</td>
+            <td>98.17</td>
+            <td>98.20</td>
+            <td>98.17</td>
+            </tr>
+            <tr>
+            <td>8</td>
+            <td><a href="https://en.wikipedia.org/wiki/Quadratic_discriminant_analysis" target="_blank">QDA</a></td>
+            <td>97.38</td>
+            <td>97.43</td>
+            <td>97.67</td>
+            <td>97.39</td>
+            </tr>
+            <tr>
+            <td>9</td>
+            <td><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron" target="_blank">MLP</a></td>
+            <td>97.38</td>
+            <td>97.31</td>
+            <td>97.49</td>
+            <td>97.37</td>
+            </tr>
+            <tr>
+            <td>10</td>
+            <td><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank">GBM</a></td>
+            <td>97.12</td>
+            <td>97.12</td>
+            <td>97.13</td>
+            <td>97.12</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
   </div>
 </section>
 
-
-
-<!-- 5) Research Paper Link -->
-<section class="container my-5 text-center">
-  <div class="row">
-    <div class="col">
-      <h2 class="section-title">Read Our Research Paper</h2>
-      <p>
-        Dive deeper into our methodology, experiments, and results by accessing the full research paper.
-      </p>
-      <a href="https://your-research-paper-link.com" target="_blank" class="btn btn-primary"
-        style="pointer-events: none; cursor: default;">
-        View Research Paper
-      </a>
-    </div>
-    <div class="col">
-      <h2 class="section-title">See the Codes</h2>
-      <p>
-        Here you can find our ML code which is used in this project to identify the infant cry.
-      </p>
-      <a href="https://github.com/mursalatul/cry-prediction" target="_blank" class="btn btn-primary"
-        style="pointer-events: none; cursor: default;">
-        Source Codes
-      </a>
+<!-- Bottom Actions -->
+<section class="bottom-actions">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="action-box">
+          <i class="bi bi-journal-text display-4 text-primary mb-3 d-block"></i>
+          <h2>Read Our Research</h2>
+          <p>Dive deeper into our methodology, experiments, and results by accessing the full research paper.</p>
+          <a href="#" class="btn-gold disabled" aria-disabled="true">
+            Coming Soon
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="action-box">
+          <i class="bi bi-github display-4 text-primary mb-3 d-block"></i>
+          <h2>See the Code</h2>
+          <p>Explore the machine learning source code used in this project to identify infant cries.</p>
+          <a href="https://github.com/mursalatul/cry-prediction" target="_blank" class="btn-gold">
+            View Source Code
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-
 </section>
 {% endblock %}
